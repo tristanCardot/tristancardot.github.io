@@ -90,6 +90,7 @@ var menu = {
 	},
 
 	showList : function(data){//target,src,txt
+		frameManager.close();
 		var list = document.getElementById('list');
 		list.innderHTML = "";
 		var result = "";
@@ -108,7 +109,7 @@ var menu = {
 		list.style.opacity = 1;
 	},
 	
-	loaded : function(node, e){console.log(node);
+	loaded : function(node, e){
 		node.parentNode.style.display ="";
 	},
 	
@@ -538,7 +539,7 @@ function update(){
 	requestAnimationFrame(update);
 }
 
-window.addEventListener('load', function(){console.log("tick");
+window.addEventListener('load', function(){
 	menu.init();
 
 	this.CTX = document.getElementById('canvas').getContext('2d');
@@ -558,17 +559,6 @@ function resize(){
 }
 
 window.onresize = resize;
-
-var data = [
-	['null','img/me200.png','some random text'],
-	['null','img/iconCV.png','some random text'],
-	['null','img/me200.png','some random text'],
-	['null','img/iconCV.png','some random text'],
-	['null','img/test.png','some random text'],
-	['null','img/me200.png','some random text'],
-	['null','img/test.png','some random text'],
-	['null','img/test.png','some random text']
-];
 
 var frameManager = {
 	currentFrame : "null",
@@ -590,12 +580,15 @@ var frameManager = {
 		request.responseType = 'document';
 
 		request.onload = function(e){
-			if(e.target.response instanceof Object){
+			if(e.target.response){
+				menu.hideList();
 				self.currentDoc = e.target.response;
 				self.execObject();
 				
-			}else
+			}else{
+				self.currentDoc = null;
 				self.currentFrame = "null";
+			}
 		};
 
 		request.onerror = function(e){ self.currentFrame = "null"; console.error(e);};
@@ -639,6 +632,9 @@ var frameManager = {
 			document.head.removeChild( node);
 
 		document.getElementById('container').innerHTML = "";
+		
+		this.currentDoc = null;
+		this.currentFrame = "null"
 	}
 };
 

@@ -346,10 +346,10 @@
 			
 			bindSlideEvent : function(){
 				var f = window.addEventListener;
-				nav.press();nav.move();nav.release();
-				/*f('mousedown', , false);
-				f('mousemove', , false);
-				f('mouseup', , false);*/
+
+				f('mousedown', nav.press(), false);
+				f('mousemove', nav.move(), false);
+				f('mouseup', nav.release(), false);
 
 				f('touchstart', this.pressF, false);
 				f('touchmove', this.moveF, false);
@@ -475,13 +475,6 @@
 					path.appendChild(anim);
 					this.svg.appendChild(path);
 				}
-
-				/*str +="<path> <animate attributeType='XML' attributeName='d'"+
-				 "from='M 165,165 Q155,155 165,165 Q165,165 165,165'"+
-				 "to='M 0,165 Q0,0 165,0 Q0,0 0,165'"+
-				 "dur='8s' begin='-"+ i +"s' repeatCount='indefinite'/>"+
-				 "<animate begin='-"+ i +"s' attributeType='CSS' attributeName='opacity'"+
-				 "from='1' to='0' dur='8s' repeatCount='indefinite'/></path>";*/
 
 				BGmusic.svg.pauseAnimations();
 			},
@@ -611,20 +604,6 @@
 		</div>
 	</div>
 </html>
-
-<!-- 
-https://i1.ytimg.com/vi/pUDJkKMMlEE/hqdefault.jpg
-<iframe width="640" height="390" src="http://www.youtube.com/embed/pUDJkKMMlEE" frameborder="0" allowfullscreen></iframe></body>
-
-xZGcw9HHOkU Franz Ferdinand - Take me Out
-KRAMNWzfjcg Asaf Avidan - One day
-5bfseWNmlds Passion Pit - Sleepyhead
-bhxid63TDWQ Boys Noize - &Down
-_-LmgfYUjVg Dj Champion - No Heavenm
-pUDJkKMMlEE Crystal Castles - Love and Caring
-kVULc5loAYE Matmatah - Au Conditionnel
-KmcQvTgc2wY Higedriver - Ukigumo
-rVeMiVU77wo alt-J - Breezeblocks-->
 
 
 
