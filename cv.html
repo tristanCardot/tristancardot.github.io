@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>tristan cardot</title>
+	<style>
+		@font-face {
+			font-family: 'Ubuntu Mono';
+			font-style: normal;
+			font-weight: 400;
+			src: local('Ubuntu Mono'), url(../style/UbuntuMono.woff) format('woff');
+		}
+	
+		body{
+			font-family: 'Ubuntu Mono';
+		}
+
+		div.work, div.training{
+			position: relative;
+
+			height:45px;
+			width:720px;
+			margin:0px 0px 50px -1px;
+			background-color: rgb(245,250,255);
+			border: solid 1px rgb(220,225,230);
+		}
+		
+		div.training{
+			margin: 0px 0px 3px -1px;
+		}
+	
+		div.logo{
+			position: absolute;
+		
+			height:30px;
+			width:30px;
+			
+			margin: 2.5px 5px;
+			
+			border-radius: 25px;
+			border: solid 5px #4bcdff;
+			background-color:#ddd;
+			background-image:url(../img/iconCV.png);
+		}
+		
+		div.line{
+			position: absolute;
+			
+			top: -1px;
+			left: 22.5px;
+			
+			height: 97px;
+			width: 5px;
+
+			background-color:#4bcdff;
+		}
+	
+		div.training > .line{
+			height: 50px;
+		}
+		
+		section:first-of-type > .line{
+			top: 32px;
+			height: 120px;
+		}
+		
+		section > .line{
+			height: 47px;
+			top: -10px;
+		}
+		div.head > .line{
+			top: 32px;
+			height: 20px;
+		}
+		
+		h3, h2{
+			margin: 1px 0px 0px 50px;
+		}
+		
+		h2 span{
+			font-size: .6em;
+		}
+	
+		div.training > h2{
+			font-size: 1em;
+		}
+
+		div.work p{
+			font-size: .95em;
+			border: solid 1px rgb(220,225,230);
+			border-top-width: 0;
+			margin: 0px -1px 0px 50px;
+			padding: 0px 15px 2px 15px;
+			text-align: justify;
+			background-color: rgb(245,250,255);
+		}
+		
+		section, div.head{
+			position: relative;
+			
+			height:45px;
+			width:720px;
+			
+			margin: 0px auto 10px auto;
+		}
+		
+		section{
+			height: auto;
+		}
+		section:nth-of-type(1), section:nth-of-type(2){
+			margin-bottom: 60px;
+		}
+		
+		div.skill > h2{
+			margin: 0px 285px 0px 22.5px;
+			border: solid 2px #4bcdff;
+			border-bottom-width: 5px;
+		}
+		
+		div.head > h1{
+			font-size: 2em;
+			padding-left: 160px;
+			margin: 45px 0px 3px 27.5px;
+			border: solid 0px #4bcdff;
+			border-bottom-width: 5px;
+			border-right-width: 2px;
+		}
+		
+		div.skill a{
+			color: black;
+		}
+		
+		h1{
+			font-size: 1.75em;
+			margin: 9px 0px 3px 27.5px;
+			padding-left: 7.5px;
+			border: solid 1px #4bcdff;
+			border-bottom-width: 5px;
+			border-left-width: 5px;
+		}
+		
+		div.info{
+			position: relative;
+			padding: 6px 0px 10px 8px;
+			height: 45px;
+			width: 303px;
+			margin: -18.5px auto 0px 28px;
+			background-color: rgb(245,250,255);
+			border: solid 0px rgb(220,225,230);
+			border-bottom-width: 1px;
+			border-right-width: 1px;
+		}
+	</style>
+</head>
+<body>
+	<section>
+		<div class="head">
+			<h1>Développeur front-end</h1>
+		</div>
+		<div class="line"></div>
+		<div class ="info">
+			Ville: 90300 Lachapelle sous chaux<br/>
+			e-mail.: tristan.cardot@gmail.com<br/>
+			Tél.: 06.02.30.89.62<br/>
+		</div>
+	</section>
+	
+	<section>
+		<h1>Expériences professionnelle</h1>
+		<div class="line"></div>
+		
+		<div class="work">
+			<div class="line"></div>
+			<div class="logo"></div>
+			<h3>mars 2013 - juin 2013</h3>
+			<h2>Développeur python <span> General Electric</span></h2>
+			<p>
+				Ajout de fonctionnalitées via framework (Spotfire).<br/>
+				Réactivité dans le traitement des demandes utilisateur.<br/>
+				Utilisatation de la documentation du framework & apprentisage du python.<br/>
+			</p>
+		</div>
+		<div class="work">
+			<div class="line"></div>
+			<div class="logo" style="background-position: -60px 0px;"></div>
+			<h3>septembre 2011 - juillet 2013</h3>
+			<h2>Développeur java <span> Amadora/Nimeria</span></h2>
+			<p>
+				Serveur de jeu minecraft, apprentissage du java.<br/>
+				Developpement client/serveur<br/>
+				Réflexion et mise en pratique d'ajouts innovants.<br/>
+			</p>
+		</div>
+		<div class="work">
+			<div class="line"></div>
+			<div class="logo" style="background-position: -30px 0px;"></div>
+			<h3>mai 2010 - juillet 2010</h3>
+			<h2>Gestion informatique <span> Serrib</span></h2>
+			<p>
+				Mise à niveau de parc informatique.<br/>
+				Refonte de la partie client du site.<br/>
+				Interaction utilisateur.<br/>
+			</p>
+		</div>
+	</section>
+	
+	<section>
+		<h1>Formation</h1>
+		<div class="line"></div>
+		
+		<div class="training">
+			<div class="line"></div>
+			<div class="logo" style="background-position: -30px -30px;"></div>
+			<h3>2013 - 2014</h3>
+			<h2>Technologies web html5/css3 javascript/node.js <span> autodidacte</span></h2>
+		</div>
+		<div class="training">
+			<div class="line"></div>
+			<div class="logo" style="background-position: -60px -30px;"></div>
+			<h3>2012 - 2013</h3>
+			<h2>LP administration/maintenance systèmes-applications répartis <span> Belfort</span></h2>
+		</div>
+		<div class="training">
+			<div class="line"></div>
+			<div class="logo" style="background-position: -90px -30px;"></div>
+			<h3>2009 - 2012</h3>
+			<h2>BTS informatique et réseaux pour l'industrie et les services <span> Belfort</span></h2>
+		</div>
+		<div class="training">
+			<div class="line"></div>
+			<div class="logo" style="background-position: -90px 0px;"></div>
+			<h3>2006 - 2009</h3>
+			<h2>baccalauréat technologique génie electronique <span> Belfort</span></h2>
+		</div>
+	</section>
+	
+
+	<section>
+		<h1>Compétences</h1>
+		<div class="line"></div>
+		
+		<div class="skill">
+			<h2><a href="http://tristancardot.github.io/">http://tristancardot.github.io/</a></h2>
+		</div>
+	</section>
+	
+</body>
+</html>

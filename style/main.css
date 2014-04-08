@@ -1,0 +1,228 @@
+@font-face {
+	font-family: 'UbuntuMono';
+	font-style: normal;
+	font-weight: 400;
+	src: local('UbuntuMono'), url(UbuntuMono.woff) format('woff');
+}
+
+body{
+	font-family: 'UbuntuMono';
+	margin: 0px;
+	background-color: rgb(255,255,255);
+	height: 100%;
+	overflow-x:hidden;
+}
+
+canvas#canvas, div#container{
+	position: fixed;
+	top: 0px;
+	left:0px;
+	height: 100%;
+	width: 100%;
+}
+
+header{
+	position: absolute;
+	top: 50vh;
+	left: 50vw;
+	transition: all 500ms;
+}
+
+header.top{
+	top: 0vh;
+	-webkit-transform: translateY(-115px);
+	transform: translateY(-115px);
+}
+
+header.hide{
+	top: 0vh;
+	-webkit-transform:translateY(-200px);
+	transform:translateY(-200px);
+}
+
+a.section svg, svg#home{
+	position: absolute;
+	background-color: #4bcdff;
+	border-radius: 60px;
+	margin: 3px;
+	border: solid 5px rgb(220,235,255);
+}
+	
+svg#home{
+	height: 290px;
+	width: 290px;
+	border-radius: 150px;
+	margin: -150px;
+
+	box-shadow: inset 0px 0px 15px 2px #000;
+	cursor: pointer;
+	transition: all 2s;
+}
+header.top:hover{
+	-webkit-transform: translateY(50px);
+	transform: translateY(50px);
+}
+
+
+a.section path, svg#home path{
+	fill: none;
+	stroke: white;
+	stroke-width: 10;
+	stroke-linejoin: round;
+	stroke-linecap: round;
+}
+
+a.section path.text{
+	stroke-linejoin: miter;
+	stroke-linecap: square;
+	stroke: rgb(150,150,150);
+}
+
+svg#home path.LCI{
+	stroke-linejoin: miter;
+}
+	
+@-webkit-keyframes show{
+	from{opacity: 0;}
+	to{opacity: 1;}
+}
+
+@-webkit-keyframes showBox{
+	from{-webkit-transform: scale(0);
+		 background-size: auto 2500%;}
+	to{-webkit-transform: scale(1);
+		background-size: auto 100%;}
+}
+
+a.section{
+	position: absolute;
+
+	height: 116px;
+	width: 400px;
+	margin-top: -58px;
+	margin-bottom: 75px;
+
+	color: black;
+	display: block;
+	cursor: pointer;
+	opacity: 1;
+
+	-webkit-animation: show 2s;
+	animation: show;
+
+	transition: all 250ms;
+}
+a.section.hide{
+	transition: all 250ms 250ms;
+}
+
+a.section.left{margin-left: -342px}
+a.section.left div.title{padding-right: 118px;}
+a.section.left svg{right: 0px;}
+	
+a.section.right{margin-left: -58px;}
+a.section.right div.title{padding-left: 118px;}
+a.section.right svg{left: 0px;}
+
+a.section:hover{margin-top: -116px;}
+a.section:hover span.info{margin-top: 110px;}
+	
+a.section span.info{
+	position: absolute;
+	height: 76px;
+	width: 360px;
+
+	margin: 10px;
+	padding: 10px;
+	text-align: justify;
+
+	background-color: rgb(230,240,255);
+	box-shadow: 0px 0px 1px rgb(150,160,175);
+
+	transition: margin 250ms, opacity 250ms 500ms;
+}
+
+a.section.hide span.info{
+	opacity: 0;
+	transition: opacity 0s 0s;
+}
+
+a.section div.title{
+	position: absolute;
+	height: 110px;
+	width: 276px;
+	background-color: rgb(240,250,255);
+	box-shadow: 0px 0px 2px rgb(150,160,175),inset 0px 0px 2px rgb(150,160,175);
+	border:solid 3px white;
+	
+	transition: opacity 250ms 300ms;
+}
+a.section.hide div.title{
+	opacity: 0;
+	transition: opacity 250ms 0s;
+}
+
+a.section h2{
+	margin: 44px 0px;
+	font-size: 1.75em;
+	text-align: center;
+}
+	
+a.section svg{
+	height: 100px;
+	width: 100px;
+}
+
+div#list{
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	margin: 150px auto 0px auto;
+	max-width: 1024px;
+	transition: all 250ms;
+}
+
+div#list>div{
+	position: relative;
+	display: inline-block;
+	overflow: hidden;
+	flex: 1 250px;
+	max-width:300px;
+	height: 150px;
+	margin: 30px;
+	-webkit-animation: showBox 2s ease;
+	transition: all 250ms;
+	
+	background-color: #fff;
+	background-position: center;
+	background-size: auto 100%;
+}
+
+div#list div div,div.list div img{
+	position: absolute;
+	top: 0px;
+	height: 100%;
+	width: 100%;
+}
+
+div#list div div:first-of-type{
+	top: -150px;
+	padding: 20px 0px;
+	height: 110px;
+	box-shadow: inset -1px 1px 8px -1px white;
+	background-color: rgba(255,255,255,.6);
+
+	transition: top 250ms;
+}
+
+div#list div div.box{
+	box-shadow: inset 0px 0px 35px 8px black;
+}
+
+div#list div:hover div:first-of-type{
+	-webkit-transform: translateX(150px);
+	transform: translateX(150px);
+}
+
+
+
