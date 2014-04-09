@@ -119,6 +119,31 @@ var menu = {
 		this.logo.init();
 	},
 	
+	bindListButton : function( self, active){
+		var p = self.svg.parentNode;
+		p.addEventListener('mouseenter', function(){self.over();}, false);
+		p.addEventListener('mouseleave', function(){self.out();}, false);
+
+		p.addEventListener( 'click', active, false);
+
+		p.addEventListener( 'touchend', function(){
+			if(this.className.indexOf('active') !== -1){
+				this.className = this.className.replace(' active', '');
+				menu.activeIcon = null;
+				active();
+
+			}else{
+				if(menu.activeIcon !== null)
+					menu.activeIcon.className = menu.activeIcon.className.replace(' active', '');
+
+				if( this.className.indexOf( 'active') === -1)
+					this.className = this.className += ' active';
+				menu.activeIcon = this;
+			}
+		}, false);
+  },
+	
+  activeIcon : null,
   icons :{
 //icon expériences
 	exp : {
@@ -126,20 +151,15 @@ var menu = {
 			this.svg = document.getElementById('svgExp');
 			this.g = this.svg.getElementsByTagName('g')[0];
 			this.circles = this.svg.getElementsByTagName('circle');
-
-			var self = this;
-			this.svg.parentNode.addEventListener('mouseenter', function(){self.over();}, false);
-			this.svg.parentNode.addEventListener('mouseleave', function(){self.out();}, false);
 			
-			var press = function(){
+			var active = function(){
 				menu.hideList();
-				menu.updateSelected(menu.TOP, function(){
-					menu.showList(self.data);
+				menu.updateSelected( menu.TOP, function(){
+					menu.showList( self.data);
 				});
 			};
-
-			this.svg.parentNode.addEventListener('click', press, false);
-			this.svg.parentNode.addEventListener('touchend', press, false);
+			
+			menu.bindListButton(this, active);
 		},
 
 		data : [
@@ -205,13 +225,18 @@ var menu = {
 			this.t.to.y = 70;
 			this.t.to.scale = .75;
 
-			if(updateList.indexOf(this) === -1)
+			if( this.svg.parentNode.className.indexOf( 'active') === -1)
+				this.svg.parentNode.className += ' active';
+			
+			if( updateList.indexOf(this) === -1)
 				updateList.push(this);
 		},
 
 		out : function(){
 			this.t.to.y = 50;
 			this.t.to.scale = 1;
+			
+			this.svg.parentNode.className = this.svg.parentNode.className.replace( ' active', '');
 		}
 	},
 
@@ -222,15 +247,11 @@ var menu = {
 			this.gs = this.svg.getElementsByTagName('g');
 			this.path = this.svg.getElementsByTagName('path')[1];
 
-			var self = this;
-			this.svg.parentNode.addEventListener( 'mouseenter', function(){self.over();}, false);
-			this.svg.parentNode.addEventListener( 'mouseleave', function(){self.out();}, false);
-			
-			var press = function(){
+			var active = function(){
 				frameManager.load('slider.html');
 			};
-			this.svg.parentNode.addEventListener( 'click', press, false);
-			this.svg.parentNode.addEventListener( 'touchend', press, false);
+
+			menu.bindListButton(this, active);
 		},
 
 		currentTime : 0,
@@ -275,6 +296,9 @@ var menu = {
 			this.t.to.scale = .35;
 			this.t.to.bubble = 1;
 
+			if( this.svg.parentNode.className.indexOf( 'active') === -1)
+				this.svg.parentNode.className += ' active';
+			
 			if(updateList.indexOf(this) === -1)
 				updateList.push(this);
 		},
@@ -284,6 +308,8 @@ var menu = {
 			this.t.to.y = 50;
 			this.t.to.scale = .5;
 			this.t.to.bubble = 0;
+			
+			this.svg.parentNode.className = this.svg.parentNode.className.replace( ' active', '');
 		}
 	},
 
@@ -295,9 +321,10 @@ var menu = {
 			this.path = this.svg.getElementsByTagName('path')[0];
 			this.ligne = this.svg.getElementsByTagName('path')[1];
 
-			var self = this;
-			this.svg.parentNode.addEventListener('mouseenter', function(){self.over();}, false);
-			this.svg.parentNode.addEventListener('mouseleave', function(){self.out();}, false);
+			var active = function(){
+			};
+
+			menu.bindListButton(this, active);
 		},
 
 		currentTime : 0,
@@ -338,6 +365,9 @@ var menu = {
 			this.t.to.y = 50;
 			this.t.to.scale = 1;
 			this.t.to.offset = 0;
+
+			if( this.svg.parentNode.className.indexOf( 'active') === -1)
+				this.svg.parentNode.className += ' active';
 	
 			if(updateList.indexOf(this) === -1)
 				updateList.push(this);
@@ -347,6 +377,8 @@ var menu = {
 			this.t.to.y = 77;
 			this.t.to.scale = 1.75;
 			this.t.to.offset = -250;
+
+			this.svg.parentNode.className = this.svg.parentNode.className.replace( ' active', '');
 		}
 	},
 
@@ -356,17 +388,15 @@ var menu = {
 			this.svg = document.getElementById('svgGame');
 			this.g = this.svg.getElementsByTagName('g')[0];
 			this.path = this.svg.getElementsByTagName('path')[0];
-			
-			var self = this;
-			this.svg.parentNode.addEventListener('mouseenter', function(){self.over();}, false);
-			this.svg.parentNode.addEventListener('mouseleave', function(){self.out();}, false);
-			
-			this.svg.parentNode.addEventListener('click', function(){
+
+			var active = function(){
 				menu.hideList();
-				menu.updateSelected(menu.TOP, function(){
+				menu.updateSelected( menu.TOP, function(){
 					menu.showList(self.data);
 				});
-			}, false);
+			};
+			
+			menu.bindListButton(this, active);
 		},
 		
 		data : [
@@ -412,13 +442,18 @@ var menu = {
 	
 		over : function(){
 			this.t.to.r = 30;
-		
+
+			if( this.svg.parentNode.className.indexOf( 'active') === -1)
+				this.svg.parentNode.className += ' active';
+			
 			if(updateList.indexOf(this) === -1)
 				updateList.push(this);
 		},
 	
 		out : function(){
 			this.t.to.r = 0;
+
+			this.svg.parentNode.className = this.svg.parentNode.className.replace( ' active', '');
 		}
 	}
   },
@@ -548,6 +583,10 @@ window.addEventListener('load', function(){
 
 	updateList.push(backgroundRender);
 	update();
+
+	document.getElementById('work').addEventListener('click',function(e){this.parentNode.removeChild(this);});
+	document.getElementById('work').addEventListener('touchstart',function(e){this.parentNode.removeChild(this);});
+	
 }, false);
 
 function resize(){

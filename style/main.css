@@ -124,8 +124,8 @@ a.section.right{margin-left: -58px;}
 a.section.right div.title{padding-left: 118px;}
 a.section.right svg{left: 0px;}
 
-a.section:hover{margin-top: -116px;}
-a.section:hover span.info{margin-top: 110px;}
+a.section.active{margin-top: -116px;}
+a.section.active span.info{margin-top: 110px;}
 	
 a.section span.info{
 	position: absolute;
@@ -224,5 +224,17 @@ div#list div:hover div:first-of-type{
 	transform: translateX(150px);
 }
 
+div#work{
+	position:relative;
+	z-index: 10;
+	height: 30px;
+	width: 250px;
+	text-align: center;
+	margin: 40px auto;
+	font-size: 1.6em;
+	background-color:#ffb;
+	border: solid 1px #cc9;
+	border-radius: 3px;
+}
 
 
