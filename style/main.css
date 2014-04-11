@@ -20,6 +20,9 @@ canvas#canvas, div#container{
 	height: 100%;
 	width: 100%;
 }
+div#container{
+	transition:all 1000ms;
+}
 
 header{
 	position: absolute;
@@ -88,10 +91,18 @@ svg#home path.LCI{
 }
 
 @-webkit-keyframes showBox{
-	from{-webkit-transform: scale(0);
-		 background-size: auto 2500%;}
-	to{-webkit-transform: scale(1);
-		background-size: auto 100%;}
+	from{-webkit-transform: scale(0);}
+	to{-webkit-transform: scale(1);}
+}
+
+@keyframes show{
+	from{opacity: 0;}
+	to{opacity: 1;}
+}
+
+@keyframes showBox{
+	from{transform: scale(0);}
+	to{transform: scale(1);}
 }
 
 a.section{
@@ -175,11 +186,16 @@ a.section svg{
 
 div#list{
 	display: flex;
+	opacity: 1;
 	flex-flow: row wrap;
 	justify-content: center;
 	margin: 150px auto 0px auto;
 	max-width: 1024px;
-	transition: all 250ms;
+	transition: opacity 250ms;
+}
+
+div#list.hide{
+	opacity: 0;
 }
 
 div#list>div{
@@ -206,13 +222,18 @@ div#list div div,div.list div img{
 }
 
 div#list div div:first-of-type{
+	width: 90%;
 	top: -150px;
-	padding: 20px 0px;
+	padding: 20px;
 	height: 110px;
 	box-shadow: inset -1px 1px 8px -1px white;
 	background-color: rgba(255,255,255,.6);
+	
+	font-size: 1.25em;
+	text-shadow: 1px 1px 0px white;
 
-	transition: top 250ms;
+	transition: -webkit-transform 250ms;
+	transition: transform 250ms;
 }
 
 div#list div div.box{
@@ -220,8 +241,8 @@ div#list div div.box{
 }
 
 div#list div:hover div:first-of-type{
-	-webkit-transform: translateX(150px);
-	transform: translateX(150px);
+	-webkit-transform: translateY(150px);
+	transform: translateY(150px);
 }
 
 div#work{

@@ -26,7 +26,7 @@ var menu = {
 							s.style.transform = "";
 							s.style.className = s.className = s.className.split("hide")[0] + "hide";
 						}, 
-						count*150, 
+						count*150,
 						this.icons[key].svg.parentNode,
 						count++
 					);
@@ -86,7 +86,9 @@ var menu = {
 	},
 
 	hideList : function(){
-		document.getElementById('list').style.opacity = 0;
+		var node = document.getElementById('list');
+		node.className = "hide";
+		setTimeout(function(){ node.style.display= 'none';}, 1000);
 	},
 
 	showList : function(data){//target,src,txt
@@ -100,17 +102,25 @@ var menu = {
 			s = data[i];
 
 			result +="<div data-target='"+ s[0] +"' style='"+
-					 "background-image:url("+ s[1] +");' onload='menu.loaded(this,event);' onerror='menu.loaded(this,event);'>"+
+					 "background-image:url("+ s[1] +");'>"+
 					 "<div>"+ s[2] +"</div>"+
 					 "<div class='box'></div></div>";
 		}
-
+		
 		list.innerHTML = result;
-		list.style.opacity = 1;
+		list.className = "";
+		list.style.display = "";
+		
+		for(var i=0; i<list.childNodes.length; i++){
+			list.childNodes[i].addEventListener('click', function(){
+				frameManager.load( this.dataset.target);
+			}, false);
+		}
 	},
 	
 	loaded : function(node, e){
-		node.parentNode.style.display ="";
+		//node.parentNode.style.display ="";console.log(node);
+		node.addEventListener('click', function(){ console.log('tick');}, false);
 	},
 	
 	init : function(){
@@ -151,8 +161,10 @@ var menu = {
 			this.svg = document.getElementById('svgExp');
 			this.g = this.svg.getElementsByTagName('g')[0];
 			this.circles = this.svg.getElementsByTagName('circle');
-			
+
+			var self = this;
 			var active = function(){
+				this.className = this.className.replace(' active', '');
 				menu.hideList();
 				menu.updateSelected( menu.TOP, function(){
 					menu.showList( self.data);
@@ -163,7 +175,7 @@ var menu = {
 		},
 
 		data : [
-			['null','img/me200.png','some random text'],
+			['cube.html','img/me200.png','une application des matrices par le billet des transformations css3'],
 			['null','img/iconCV.png','some random text'],
 			['null','img/me200.png','some random text'],
 		],
@@ -248,6 +260,7 @@ var menu = {
 			this.path = this.svg.getElementsByTagName('path')[1];
 
 			var active = function(){
+				this.className = this.className.replace(' active', '');
 				frameManager.load('slider.html');
 			};
 
@@ -322,6 +335,7 @@ var menu = {
 			this.ligne = this.svg.getElementsByTagName('path')[1];
 
 			var active = function(){
+				this.className = this.className.replace(' active', '');
 			};
 
 			menu.bindListButton(this, active);
@@ -389,7 +403,9 @@ var menu = {
 			this.g = this.svg.getElementsByTagName('g')[0];
 			this.path = this.svg.getElementsByTagName('path')[0];
 
+			var self = this;
 			var active = function(){
+				this.className = this.className.replace(' active', '');
 				menu.hideList();
 				menu.updateSelected( menu.TOP, function(){
 					menu.showList(self.data);
@@ -605,6 +621,7 @@ var frameManager = {
 	onload : null,
 	
 	load : function(url){
+		document.getElementById('container').style.opacity = 0;
 		if(url === this.currentFrame)
 			return;
 		
@@ -673,7 +690,7 @@ var frameManager = {
 		document.getElementById('container').innerHTML = "";
 		
 		this.currentDoc = null;
-		this.currentFrame = "null"
+		this.currentFrame = "null";
 	}
 };
 
