@@ -97,7 +97,6 @@ var menu = {
 		list.innderHTML = "";
 		var result = "";
 
-		
 		for(var i=0,s; i<data.length; i++){
 			s = data[i];
 
@@ -106,21 +105,16 @@ var menu = {
 					 "<div>"+ s[2] +"</div>"+
 					 "<div class='box'></div></div>";
 		}
-		
+
 		list.innerHTML = result;
 		list.className = "";
 		list.style.display = "";
-		
+
 		for(var i=0; i<list.childNodes.length; i++){
 			list.childNodes[i].addEventListener('click', function(){
 				frameManager.load( this.dataset.target);
 			}, false);
 		}
-	},
-	
-	loaded : function(node, e){
-		//node.parentNode.style.display ="";console.log(node);
-		node.addEventListener('click', function(){ console.log('tick');}, false);
 	},
 	
 	init : function(){
@@ -175,7 +169,7 @@ var menu = {
 		},
 
 		data : [
-			['cube.html','img/me200.png','une application des matrices par le billet des transformations css3'],
+			['cube.html','img/expCube.png','une application des matrices par le billet des transformations css3'],
 			['null','img/iconCV.png','some random text'],
 			['null','img/me200.png','some random text'],
 		],
@@ -687,7 +681,9 @@ var frameManager = {
 		if(node)
 			document.head.removeChild( node);
 
-		document.getElementById('container').innerHTML = "";
+		setTimeout(function(){ 
+			document.getElementById('container').innerHTML = "";
+		}, 1000);
 		
 		this.currentDoc = null;
 		this.currentFrame = "null";
