@@ -150,6 +150,56 @@
 			top: 50vh;
 		}
 
+		div#mediaWall{
+			position: fixed;
+			top:0px;
+			left: 0px;
+			height: 100%;
+			width: 100%;
+			background-color:rgba(0,0,0,.85);
+
+			display: none;
+			align-items: center;
+			transition: opacity 500ms;
+			z-index: 5;
+		}
+
+		div#mediaWall iframe{
+			margin:auto;
+			width: 90vmin;
+			height: 52vmin;
+		}
+		
+		div.mediaList{
+			position: absolute;
+			top:10%;
+			left:10%;
+			height:80%;
+			width:80%;
+			
+			display: flex;
+			flex-flow: row wrap;
+			align-content: stretch;
+		}
+		
+		div.mediaList>div{
+			flex: 1 25%;
+			margin:2.5%;
+			background-size: 30vmax 30vmax;
+			background-position: center;
+			box-shadow: inset 0px 0px 35px 8px black;
+		}
+		
+		div.mediaList>div>div{
+			font-size: 1.5vmin;
+			height: 20px;
+			width: 100%;
+			color: white;
+			background-color: rgba(0,0,0,.75);
+			text-align: center;
+			padding: 5px 0px;
+		}
+		
 	</style>
 	<script>
 		var lastFrame = Date.now();
@@ -209,12 +259,15 @@
 				switch(this.pos[ target]){
 					case 0:
 						BGmusic.svg.unpauseAnimations();
+						mediaDisplay.randomiseList('slideMusic');
 					break;
 					case -50:
 						BGfilm.svg.unpauseAnimations();
+						mediaDisplay.randomiseList('slideFilm');
 					break;
 					case -100:
 						BGgame.svg.unpauseAnimations();
+						mediaDisplay.randomiseList('slideGame');
 						if( updateList.indexOf( BGgame) === -1)
 							updateList.push( BGgame);
 					break;
@@ -222,6 +275,7 @@
 						menu.updateSelected( menu.TOP);
 					break;
 					case -200:
+						//mediaDisplay.randomiseList('slideMusic');
 				}
 
 				setTimeout( function(self){
@@ -267,8 +321,9 @@
 			pressed : false,
 			press : function(){
 				var self = this;
+				
 				var f = function(e){
-					if( !e.clientX){
+					if( e.clientX === undefined){
 						e.preventDefault();
 						e = e.changedTouches[0];
 					}
@@ -297,7 +352,7 @@
 			move : function(){
 				var self = this;
 				var f = function(e){
-					if( !e.clientX){
+					if( e.clientX === undefined){
 						e.preventDefault();
 						e = e.changedTouches[0];
 					}
@@ -491,10 +546,41 @@
 			}
 		};
 
+		
+
+		window.mediaPlayer = {
+			init : function(){
+				this.wall = document.getElementById('mediaWall');
+
+				this.wall.addEventListener('click', function(e){
+					if(e.target !== this)
+						return;
+
+					var w = this;
+					w.style.opacity = 0;
+
+					setTimeout(function(){
+						w.firstChild.src = '';
+						w.style.display = 'none';
+					}, 500);
+					
+				}, false);
+			},
+
+			launchVideo : function(data){
+				this.wall.firstChild.src = 'http://www.youtube.com/embed/'+data+'?iv_load_policy=3&autoplay=1';
+				this.wall.style.display = 'flex';
+				this.wall.style.opacity = 1;
+			}
+		};
+		
 		window.onload = function(){
 			BGgame.init();
 			BGmusic.init();
 			BGfilm.init();
+			mediaPlayer.init();
+			
+			mediaDisplay.init();
 
 			nav.bindSlideEvent();
 			nav.addButtonEvent( 'nav top', 'top');
@@ -526,11 +612,116 @@
 			delete window.BGfilm;
 			delete window.slider;
 			delete window.nav;
+			delete window.mediaPlayer;
+			delete window.mediaDisplay;
 
 			var c = document.getElementById('container');
 			while(c.childNodes.length !== 0)
 				c.removeChild( c.childNodes[0]);
 		};
+		
+		window.mediaDisplay = {
+			init : function(){
+				var dataS,node,i;
+				
+				for(key in this.data){
+					this.randomiseList(key);
+					
+					var node = document.getElementById(key).getElementsByClassName('mediaList')[0].addEventListener('click',
+						function(e){
+							if(! e.target.dataset.code)
+							return;
+
+							mediaPlayer.launchVideo(e.target.dataset.code);
+					}, false);
+				}
+			},
+			
+			randomiseList : function(name){
+				if(this.data[name] === undefined)
+					return;
+				
+				var dataS = this.data[name].slice(0, this.data[name].length);
+				var node = document.getElementById(name).getElementsByClassName('mediaList')[0];
+				
+				var html="";
+
+				for(var s,i=0; i<9 && dataS.length !== 0; i++){
+					s = dataS.splice( Math.floor( Math.random() *dataS.length), 1)[0];
+					html += "<div data-code='"+ s[0] +"' style='background-image:url(https://i1.ytimg.com/vi/"+ s[0] +"/hqdefault.jpg)'><div>"+ s[1] +"</div></div>";
+				}
+
+				node.innerHTML = html;
+			},
+
+			data :{
+				'slideFilm' : [
+					['SUXWAEX2jlg', "Fight Club"],
+					['AsaCU5U-jmM', "Orange Mécanique"],
+					['Pe6eOqheva8', "Drive"],
+					['XbK0OfY5F_4', "Lord Of War"],
+					['6L9ZAH09En4', "Le Prestige"],
+					['ZV6P8QwxSuk', "Snatch"],
+					['-NsH4VTYOfk', "Mr Nobody"],
+					['R8OtQ-RyCGA', "Gran Torino"],
+					['pnSBTE5EIu8', "American Beauty"],
+					
+					['XlTfzNxqQ1Y', "Princesse Mononoke"],
+					['Sob95vSNeeQ', "Pulp Fiction"],
+					['8_uRxlYe8TM', "Black Swan"],
+					['Zku_lGBAWFg', "Memento"],
+					['j9Us2Ga3xIE', "Dony Darko"],
+					['-Ysl824FS8c', "Le Seigneur des Anneaux"],
+					['BDGg7uMJxvU', "Star Wars"],
+					['gm1uHLSQvvE', "Vol au-dessu d'un nid de coucou."],
+					['bS2ca-vWLSg', "V pour Vendetta"]
+				],
+				'slideMusic' : [
+					['los6obvBbqU', "Franz Ferdinand - Take me Out"],
+					['KRAMNWzfjcg', "Asaf Avidan - One day"],
+					['5bfseWNmlds', "Passion Pit - Sleepyhead"],
+					['bhxid63TDWQ', "Boys Noize - &Down"],
+					['_-LmgfYUjVg', "Dj Champion - No Heavenm"],
+					['pUDJkKMMlEE', "Crystal Castles - Love and Caring"],
+					['NMM02AO7mE8', "Matmatah - Au Conditionnel"],
+					['KmcQvTgc2wY', "Higedriver - Ukigumo"],
+					['rVeMiVU77wo', "alt-J - Breezeblocks"],
+					
+					['hBRKSIj2tMc', "Swedish House Mafia - Greyhound"],
+					['GiDsLRQg_g4', "Justice - DVNO"],
+					['kqjeNSNuNPM', "Chinese Man - I've Got That Tune"],
+					['tQPNredrDO0', "Wolfmother- Woman"],
+					['JaAWdljhD5o', "SAIL - AWOLNATION"],
+					['H-k_Eg7zXuc', "The Glitch Mob - WCM TWS"],
+					['fJ9rUzIMcZQ', "Queen - Bohemian Rhapsody"],
+					['FL5QbNYq3fw', "Anis - Cergy"],
+					['99NhxpB96-k', "Dionysos - Tais-toi Mon Coeur"]
+				],
+				'slideLike' : [
+
+				],
+				'slideGame' : [
+					['cyazYYev7Nw', "Zelda - probably all"],
+					['31-NAkq8YEY', "BioShock Infinite"],
+					['kEhdjL60Qts', "Borderlands"],
+					['IzMnCv_lPxI', "League Of Legend"],
+					['2CA8NDOHIT4', "Diablo 3"],
+					['aGsnm2nOnso', "Antichamber"],
+					['mX48y24t9iU', "Bastion"],
+					['dyBm2R4SiFM', "Super meat boy"],
+					['OwFJEJw7jSI', "Dishonored"],
+					
+					['MmB9b5njVbA', "minecraft"],
+					['b4ANqIz9l-o', "ratchet & clank"],
+					['s97B97dIpDQ', "mirror's edge"],
+					['SG_3R9BoVvg', "Starcraft 2"],
+					['p-PvxJJNpnM', "Magicka"]
+				]
+			
+			}
+		};
+		
+		
 	</script>
 </head>
 <body>
@@ -544,14 +735,15 @@
 				<svg viewBox="0 0 200 200">
 					<path d='M126,166 h25 l8,8 l18,-18 l-8,-8 v-25 z'></path>
 					
-<path> 
-	<animate attributeType='XML' attributeName='d' from='M 165,165 Q155,155 165,165 Q165,165 165,165' to='M 0,165 Q0,0 165,0 Q0,0 0,165' dur='8s' begin='-2s' repeatCount='indefinite'/>
-	<animate begin='-2s' attributeType='CSS' attributeName='opacity' from='1' to='0' dur='8s' repeatCount='indefinite'/>
-</path>
-		
+					<path> 
+						<animate attributeType='XML' attributeName='d' from='M 165,165 Q155,155 165,165 Q165,165 165,165' to='M 0,165 Q0,0 165,0 Q0,0 0,165' dur='8s' begin='-2s' repeatCount='indefinite'/>
+						<animate begin='-2s' attributeType='CSS' attributeName='opacity' from='1' to='0' dur='8s' repeatCount='indefinite'/>
+					</path>
 				</svg>
+				
+				<div class ="mediaList">
+				</div>
 			</div>
-	
 		</div>
 		<div id="slideFilm" class="viewBox left">
 			<div>
@@ -569,8 +761,10 @@
 						</path>
 					</g>
 				</svg>
+				
+				<div class ="mediaList">
+				</div>
 			</div>
-	
 		</div>
 		<div id="slideLike" class="viewBox top">
 			<div>
@@ -581,8 +775,10 @@
 						<path d="M-30,-40 h20 v60 h40 v20 h-60 z" class="LCI" style="stroke: rgb(240,240,240);"></path>
 					</g>
 				</svg>
+				
+				<div class ="mediaList">
+				</div>
 			</div>
-	
 		</div>
 		<div id="slideGame" class="viewBox bottom">
 			<div>
@@ -593,6 +789,9 @@
 								 m-58,-5 h-5 v-5 h-5 v-5 h5 v-5 h5 v5 h5 v5 h-5 z"></path>
 					</g>
 				</svg>
+				
+				<div class ="mediaList">
+				</div>
 			</div>
 		</div>
 	
@@ -604,7 +803,11 @@
 		</div>
 		<div class="nav right" style="background-position:0px 0px;">
 		</div>
+		<div id='mediaWall'><iframe src="" frameborder="0" allowfullscreen></iframe>
+		</div>
 	</div>
+
+<iframe width="640" height="390" src="//www.youtube.com/embed/KQFPp5kXCDU" frameborder="0" allowfullscreen></iframe>
 </html>
 
 

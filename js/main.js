@@ -410,9 +410,9 @@ var menu = {
 		},
 		
 		data : [
-			['null','img/me200.png','some random text'],
+		/*	['null','img/me200.png','some random text'],
 			['null','img/iconCV.png','some random text'],
-			['null','img/me200.png','some random text'],
+			['null','img/me200.png','some random text'],*/
 		],
 		
 		currentTime : 0,
@@ -563,8 +563,8 @@ var backgroundRender = {
 		var s = Math.PI/25000,
 			off = Math.PI/500;
 
-		for(var i=0; i<50; i++)
-			this.p.push([Math.PI *2 /50 *(i), ( i%2 === 0 ? -1 : 1) *i *s +off]);
+		for(var i=0; i<20; i++)
+			this.p.push([Math.PI *2 /20 *(i), ( i%2 === 0 ? -1 : 1) *i *s +off]);
 	},
 
 	p : []
@@ -615,10 +615,10 @@ var frameManager = {
 	onload : null,
 	
 	load : function(url){
-		document.getElementById('container').style.opacity = 0;
 		if(url === this.currentFrame)
 			return;
-		
+
+		document.getElementById('container').style.opacity = 0;
 		if(this.currentFrame !== "null")
 			this.close();
 		
@@ -681,14 +681,15 @@ var frameManager = {
 		if(node)
 			document.head.removeChild( node);
 
-		setTimeout(function(){ 
+		setTimeout(function(){
 			document.getElementById('container').innerHTML = "";
 		}, 1000);
-		
+
 		this.currentDoc = null;
 		this.currentFrame = "null";
 	}
 };
+
 
 
 
