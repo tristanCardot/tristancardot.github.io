@@ -198,7 +198,7 @@ div#list.hide{
 	opacity: 0;
 }
 
-div#list>div{
+div#list>div, div#list a{
 	position: relative;
 	display: inline-block;
 	overflow: hidden;
@@ -214,14 +214,14 @@ div#list>div{
 	background-size: auto 100%;
 }
 
-div#list div div,div.list div img{
+div#list div div,div.list div img, div#list a div,div.list a img{
 	position: absolute;
 	top: 0px;
 	height: 100%;
 	width: 100%;
 }
 
-div#list div div:first-of-type{
+div#list div div:first-of-type, div#list a div:first-of-type{
 	width: 90%;
 	top: -150px;
 	padding: 20px;
@@ -236,11 +236,11 @@ div#list div div:first-of-type{
 	transition: transform 250ms;
 }
 
-div#list div div.box{
+div#list div div.box, div#list a div.box{
 	box-shadow: inset 0px 0px 35px 8px black;
 }
 
-div#list div:hover div:first-of-type{
+div#list div:hover div:first-of-type, div#list a:hover div:first-of-type{
 	-webkit-transform: translateY(150px);
 	transform: translateY(150px);
 }

@@ -91,6 +91,26 @@ var menu = {
 		setTimeout(function(){ node.style.display= 'none';}, 1000);
 	},
 
+	showLinks : function(data){
+		frameManager.close();
+		var list = document.getElementById('list');
+		list.innderHTML = "";
+		var result = "";
+
+		for(var i=0,s; i<data.length; i++){
+			s = data[i];
+
+			result +="<a target='_blank' href='"+ s[0] +"' style='"+
+					 "background-image:url("+ s[1] +");'>"+
+					 "<div>"+ s[2] +"</div>"+
+					 "<div class='box'></div></a>";
+		}
+
+		list.innerHTML = result;
+		list.className = "";
+		list.style.display = "";
+	},
+	
 	showList : function(data){//target,src,txt
 		frameManager.close();
 		var list = document.getElementById('list');
@@ -169,9 +189,7 @@ var menu = {
 		},
 
 		data : [
-			['cube.html','img/expCube.png','une application des matrices par le billet des transformations css3'],
-			['null','img/iconCV.png','some random text'],
-			['null','img/me200.png','some random text'],
+			['cube.html','img/expCube.png','une application des matrices par le biais des transformations css3']
 		],
 
 		currentTime : 0,
@@ -402,7 +420,7 @@ var menu = {
 				this.className = this.className.replace(' active', '');
 				menu.hideList();
 				menu.updateSelected( menu.TOP, function(){
-					menu.showList(self.data);
+					menu.showLinks(self.data);
 				});
 			};
 			
@@ -410,9 +428,7 @@ var menu = {
 		},
 		
 		data : [
-		/*	['null','img/me200.png','some random text'],
-			['null','img/iconCV.png','some random text'],
-			['null','img/me200.png','some random text'],*/
+			['http://www.kongregate.com/games/Luciole_/othello?referrer=Luciole_','http://cdn1.kongcdn.com/game_icons/0053/6418/icon_site.png?5556-op','Un othello avec sa super IA!']
 		],
 		
 		currentTime : 0,
