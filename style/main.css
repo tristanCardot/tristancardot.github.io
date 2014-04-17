@@ -186,6 +186,7 @@ a.section svg{
 
 div#list{
 	display: flex;
+	cursor: pointer;
 	opacity: 1;
 	flex-flow: row wrap;
 	justify-content: center;
