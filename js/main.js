@@ -189,7 +189,8 @@ var menu = {
 		},
 
 		data : [
-			['cube.html','img/expCube.png','une application des matrices par le biais des transformations css3']
+			['cube.html','img/expCube.png','une application des matrices par le biais des transformations css3'],
+			['log.html','img/expCube.png','une console de log dynamique.']
 		],
 
 		currentTime : 0,
@@ -423,16 +424,18 @@ var menu = {
 					menu.showLinks(self.data);
 				});
 			};
-			
+
 			menu.bindListButton(this, active);
 		},
-		
+
 		data : [
-			['http://www.kongregate.com/games/Luciole_/othello?referrer=Luciole_','http://cdn1.kongcdn.com/game_icons/0053/6418/icon_site.png?5556-op','Un othello avec sa super IA!']
+			['http://www.kongregate.com/games/Luciole_/othello?referrer=Luciole_','http://cdn1.kongcdn.com/game_icons/0053/6418/icon_site.png?5556-op','Un othello avec sa super IA!'],
+			['http://www.kongregate.com/games/Luciole_/shape-color?referrer=Luciole_','http://cdn1.kongcdn.com/game_icons/0053/7460/icon_site.png?6616-op','Basé sur les formes et les couleurs le tout rythmé par la music'],
+			['http://www.kongregate.com/games/Luciole_/snake-color?referrer=Luciole_','http://cdn4.kongcdn.com/game_icons/0053/6787/Logo_site.png?3722-op','Un snake 3D']
 		],
-		
+
 		currentTime : 0,
-	
+
 		update : function( delta){
 			this.currentTime += delta;
 			var t = this.currentTime /20;
