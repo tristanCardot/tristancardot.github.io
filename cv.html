@@ -2,247 +2,469 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>tristan cardot</title>
+	<title>CV Tristan CARDOT</title>
 	<style>
-		@font-face {
-			font-family: 'Ubuntu Mono';
-			font-style: normal;
-			font-weight: 400;
-			src: local('Ubuntu Mono'), url(../style/UbuntuMono.woff) format('woff');
-		}
-	
 		body{
-			font-family: 'Ubuntu Mono';
+			margin:0px;
 		}
 
-		div.work, div.training{
-			position: relative;
-
-			height:45px;
-			width:720px;
-			margin:0px 0px 50px -1px;
-			background-color: rgb(245,250,255);
-			border: solid 1px rgb(220,225,230);
-		}
-		
-		div.training{
-			margin: 0px 0px 3px -1px;
-		}
-	
-		div.logo{
-			position: absolute;
-		
-			height:30px;
-			width:30px;
-			
-			margin: 2.5px 5px;
-			
-			border-radius: 25px;
-			border: solid 5px #4bcdff;
-			background-color:#ddd;
-			background-image:url(../img/iconCV.png);
-		}
-		
-		div.line{
-			position: absolute;
-			
-			top: -1px;
-			left: 22.5px;
-			
-			height: 97px;
-			width: 5px;
-
-			background-color:#4bcdff;
-		}
-	
-		div.training > .line{
-			height: 50px;
-		}
-		
-		section:first-of-type > .line{
-			top: 32px;
-			height: 120px;
-		}
-		
-		section > .line{
-			height: 47px;
-			top: -10px;
-		}
-		div.head > .line{
-			top: 32px;
-			height: 20px;
-		}
-		
-		h3, h2{
-			margin: 1px 0px 0px 50px;
-		}
-		
-		h2 span{
-			font-size: .6em;
-		}
-	
-		div.training > h2{
-			font-size: 1em;
+		canvas{
 		}
 
-		div.work p{
-			font-size: .95em;
-			border: solid 1px rgb(220,225,230);
-			border-top-width: 0;
-			margin: 0px -1px 0px 50px;
-			padding: 0px 15px 2px 15px;
-			text-align: justify;
-			background-color: rgb(245,250,255);
-		}
-		
-		section, div.head{
-			position: relative;
-			
-			height:45px;
-			width:720px;
-			
-			margin: 0px auto 10px auto;
-		}
-		
-		section{
-			height: auto;
-		}
-		section:nth-of-type(1), section:nth-of-type(2){
-			margin-bottom: 60px;
-		}
-		
-		div.skill > h2{
-			margin: 0px 285px 0px 22.5px;
-			border: solid 2px #4bcdff;
-			border-bottom-width: 5px;
-		}
-		
-		div.head > h1{
-			font-size: 2em;
-			padding-left: 160px;
-			margin: 45px 0px 3px 27.5px;
-			border: solid 0px #4bcdff;
-			border-bottom-width: 5px;
-			border-right-width: 2px;
-		}
-		
-		div.skill a{
-			color: black;
-		}
-		
-		h1{
-			font-size: 1.75em;
-			margin: 9px 0px 3px 27.5px;
-			padding-left: 7.5px;
-			border: solid 1px #4bcdff;
-			border-bottom-width: 5px;
-			border-left-width: 5px;
-		}
-		
-		div.info{
-			position: relative;
-			padding: 6px 0px 10px 8px;
-			height: 45px;
-			width: 303px;
-			margin: -18.5px auto 0px 28px;
-			background-color: rgb(245,250,255);
-			border: solid 0px rgb(220,225,230);
-			border-bottom-width: 1px;
-			border-right-width: 1px;
-		}
 	</style>
+	<script>
+		var CTX;
+		var RADIUS = 1186 /(18 *3);
+		var LINE = 2;
+		var offS = Math.sqrt( RADIUS*RADIUS - (RADIUS/2)*(RADIUS/2) );
+		var BLUE = "rgb(75,205,255)",
+			DARKBLUE = "rgb(64,174,217)",
+			BLACK = "rgb(0,0,0)",
+			WHITE = "rgb(255,255,255)",
+			LGRAY = "rgb(245,245,245)",
+			GRAY = "rgb(150,150,150)",
+			DGRAY = "rgb(80,80,80)";
+
+		var HEADFONT = RADIUS*5,
+			TITLEFONT = RADIUS*2.5,
+			NAMEFONT = RADIUS*3,
+			SERIF = "sans-serif";
+
+		var IMG = new Image();
+		IMG.src = "icon.png";
+
+		window.onload = function(){
+			CTX = document.getElementsByTagName('canvas')[0].getContext('2d');
+			CTX.lineWidth = LINE;
+
+			drawGrid();
+
+			drawHead(7,10,9,"Développeur");
+			drawName(offS,offS);
+
+			DrawExpérience(12);
+			DrawFormation(12);
+
+			drawCompetences(37);
+		};
+
+		function DrawExpérience(off){
+			drawTitle(off,"Expériences",true);
+
+			drawInfo(off+2, true, "Développeur python", "General Electric", "mars 2013 - juin 2013", [
+				"- Ajout de Fonctionnalités via framework (Spotfire).",
+				"- Réactivité dans le traitement des demandes utilisateur.",
+				"- Apprentissage python/framework via documentation."
+			], {x:0,y:0});
+
+			drawInfo(off+6, true, "Développeur java", "Nimeria", "septembre 2011 - juillet 2013", [
+				"- Apprentissage Java.",
+				"- Développement client/serveur.",
+				"- Réflexion et mise en pratique d'ajouts innovants."
+			], {x:50,y:0});
+
+			drawInfo(off+10, true, "Administration informatique", "Serrib", "mai 2010 - juillet 2010", [
+				"- Mise à niveau d'un parc informatique.",
+				"- Refonte de la partie client du site.",
+				"- Intercation utilisateur."
+			], {x:100,y:0});
+
+			drawInfo(off+14, true, "Logisticien", "General Electric", "juin 2009 - juillet 2009", [
+				"- Création de bon de réception.",
+				"- Communication et analyse des problèmes recontrés.",
+				"- Intercation utilisateur."
+			], {x:0,y:0});
+		}
+
+		function DrawFormation(off){
+			drawTitle(off,"Formation",false);
+
+			drawInfo(off+2, false, "Autodidacte", "", "2013 - 2014", [
+				"- Environement web Javascript/node.js.",
+				"- Apprentissage HTML5/CSS3.",
+				"- Apprentissage webgl/canvas/svg."
+			], {x:200,y:0});
+
+			drawInfo(off+6, false, "Licence Pro ASAR", "Belort", "2012 - 2013", [
+				"- Environement Java.",
+				"- Administration windows/linux.",
+				"- Développement web (html/css/javascript)."
+			], {x:150,y:0});
+
+			drawInfo(off+10, false, "BTS IRIS", "Belort", "2009 - 2012", [
+				"- Environement C/C++.",
+				"- Apprentissage web html/php.",
+				"- Administration linux."
+			], {x:250,y:0});
+
+			drawInfo(off+14, false, "BAC STI électronique", "Belort", "2006 - 2009", [
+				"- Conception de circuits électronique.",
+				"- Physique ( domaine électronique).",
+				"- Assembleur."
+			], {x:300,y:0});
+		}
+
+		function drawCompetences(off){
+			drawTitleCenter( 6, off*2-3, 6,"Compétences");
+
+			drawSkill(5, off*2, 4, "HTML5/CSS3");
+			drawSkill(9, off*2+5, 4, "structure de données");
+			drawSkill(15, off*2+7, 5, "algorithmie");
+			drawSkill(22, off*2+7, 6, "Javascript");
+			drawSkill(28, off*2+5, 4, "Java");
+			drawSkill(32, off*2, 2, "webgl");
+		}
+
+
+		function drawHead(x, y, w, title){
+			CTX.save();
+
+			CTX.fillStyle = BLUE;
+			CTX.strokeStyle = BLUE;
+			CTX.shadowColor = BLUE;
+
+			CTX.lineWidth = LINE*2;
+			CTX.shadowBlur = 8;
+
+			CTX.font = HEADFONT+"px "+SERIF;
+
+			var offX = RADIUS*.5 + x*RADIUS*3  + (y%2)*RADIUS*1.5,
+				offY = offS*y;
+
+			CTX.beginPath();
+			CTX.moveTo( offX, offY);
+			CTX.lineTo( offX+ RADIUS/2, offY +offS );
+			CTX.lineTo( offX+ RADIUS*1.5 + RADIUS*3*w , offY +offS );
+			CTX.lineTo( offX+ RADIUS*2 + RADIUS*3*w, offY);
+
+
+			CTX.moveTo( offX, offY-offS*4);
+			CTX.lineTo( offX+ RADIUS/2, offY -offS*5);
+			CTX.lineTo( offX+ RADIUS*1.5 + RADIUS*3*w , offY -offS*5);
+			CTX.lineTo( offX+ RADIUS*2 + RADIUS*3*w, offY-offS*4);
+
+			CTX.stroke();
+
+			CTX.shadowBlur = 2;
+
+			var length = CTX.measureText(title).width /2;
+			CTX.fillStyle = DARKBLUE;
+			CTX.fillText( title, offX+ RADIUS+ RADIUS*1.5*w -length, offY);
+
+			CTX.restore();
+		}
+
+		function drawName(x,y){
+			CTX.save();
+
+			CTX.fillStyle = WHITE;
+			CTX.shadowColor = BLACK;
+			CTX.shadowBlur = 40;
+			CTX.font = (NAMEFONT)+"px "+SERIF;
+
+			CTX.shadowOffsetX = 3;
+			CTX.fillText("CARDOT", x, y+NAMEFONT*.6);
+			CTX.fillText("Tristan", x, y+NAMEFONT*1.5);
+			CTX.shadowOffsetX = -3;
+			CTX.shadowBlur = 5;
+			CTX.fillText("CARDOT", x, y+NAMEFONT*.6);
+			CTX.fillText("Tristan", x, y+NAMEFONT*1.5);
+
+			CTX.shadowBlur = 40;
+
+			CTX.font = (NAMEFONT*.4)+"px "+SERIF;
+			CTX.fillText("Tel: 06.02.30.89.62", x, y+offS*8.5);
+			CTX.fillText("e-mail: tristan.cardot@gmail.com", x, y+offS*10);
+			CTX.fillText("website: tristancardot.github.io", x, y+offS*11.5);
+
+
+			CTX.shadowBlur = 5;
+			CTX.shadowOffsetX = 3;
+			CTX.fillText("Tel: 06.02.30.89.62", x, y+offS*8.5);
+			CTX.fillText("e-mail: tristan.cardot@gmail.com", x, y+offS*10);
+			CTX.fillText("website: tristancardot.github.io", x, y+offS*11.5);
+
+
+			CTX.restore();
+		}
+
+//-----//-----//-----//-----//
+
+		function drawSkill(x,y,score,name){
+			CTX.save();
+
+			var offX = x*RADIUS*1.5  -( ((y+x)%2) == 0 ? RADIUS/2 : RADIUS),
+				offY = offS*y;
+
+			var off = [
+				{x:offX-RADIUS, y:offY-offS*2 },
+				{x:offX+RADIUS, y:offY-offS*2 },
+				{x:offX+RADIUS*2, y:offY },
+				{x:offX+RADIUS, y:offY+offS*2 },
+				{x:offX-RADIUS, y:offY+offS*2 },
+				{x:offX-RADIUS*2, y:offY }
+			];
+
+
+			CTX.font = (TITLEFONT*.5)+"px "+SERIF;
+			CTX.shadowColor = BLUE;
+			CTX.strokeStyle = BLUE;
+			CTX.fillStyle = BLUE;
+			CTX.shadowBlur = 3;
+			CTX.lineWidth = LINE;
+
+			CTX.beginPath();
+			CTX.moveTo( off[5].x, off[5].y);
+			CTX.lineTo( off[5].x -RADIUS, off[5].y - offS*2);
+			CTX.lineTo( off[5].x -RADIUS/2, off[5].y - offS*3);
+
+			CTX.arc( off[5].x -RADIUS/2, off[5].y - offS*3, LINE*2, -Math.PI/3, Math.PI*2);
+			CTX.stroke();
+
+			CTX.fillText(name, off[5].x -RADIUS/2+LINE*3, off[5].y - offS*3);
+
+
+			CTX.shadowColor = BLACK;
+			CTX.strokeStyle = WHITE;
+			CTX.fillStyle = BLUE;
+			CTX.shadowBlur = 8;
+			CTX.lineWidth = LINE*2;
+
+			CTX.beginPath();
+			CTX.moveTo(off[5].x, off[5].y);
+			for(var i=0; i<score; i++)
+				CTX.lineTo( off[i].x, off[i].y);
+
+			CTX.lineTo(offX, offY);
+			CTX.fill();
+
+			CTX.fillStyle = "rgb(200,200,200)";
+
+			CTX.beginPath();
+			CTX.moveTo(off[(score+5)%6].x, off[(score+5)%6].y);
+			for(var i=score; i<6; i++)
+				CTX.lineTo( off[i].x, off[i].y);
+
+			CTX.lineTo(offX, offY);
+			CTX.fill();
+
+			CTX.beginPath();
+			CTX.moveTo(off[5].x, off[5].y);
+			for(var i=0; i<6; i++)
+				CTX.lineTo( off[i].x, off[i].y);
+			CTX.closePath();
+
+
+			for(var i=0; i<6; i++){
+				CTX.moveTo(offX, offY);
+				CTX.lineTo( off[i].x, off[i].y);
+			}
+
+			CTX.stroke();
+
+
+			CTX.restore();
+		}
+
+		function drawInfo(off, left, title, from , time, text, icon){
+			CTX.save();
+
+			var offsetY = offS *2 *off;
+			var rad = (left ? RADIUS : -RADIUS),
+				off = (left ? 0 : CTX.canvas.width);
+			var width = 8*3+2;
+
+			CTX.shadowColor = BLUE;
+			CTX.strokeStyle = BLUE;
+			CTX.fillStyle = WHITE;
+			CTX.shadowBlur = 3;
+
+			CTX.beginPath();
+			CTX.moveTo( off + rad*1, offsetY-offS);
+			CTX.lineTo( off + rad*(width), offsetY-offS);
+			CTX.lineTo( off + rad*(width+.5), offsetY);
+			CTX.lineTo( off + rad*(width+.5), offsetY+offS*4);
+			CTX.lineTo( off + rad*(width), offsetY+offS*5);
+			CTX.lineTo( off + rad, offsetY+offS*5);
+			CTX.lineTo( off + rad, offsetY+offS*5);
+			CTX.lineTo( off + rad/2, offsetY+offS*4);
+			CTX.lineTo( off + rad/2, offsetY);
+			CTX.fill();
+			CTX.stroke();
+
+
+			CTX.drawImage(IMG, icon.x,icon.y,50,50,  off + rad/2 + RADIUS*.2 -(left ? 0 : RADIUS*2), offsetY-offS+offS*.1, offS*1.8, offS*1.8)
+
+			CTX.beginPath();
+			CTX.moveTo( off, offsetY);
+			CTX.lineTo( off + rad/2, offsetY);
+			CTX.lineTo( off + rad, offsetY-offS);
+			CTX.lineTo( off + rad*2, offsetY-offS);
+			CTX.lineTo( off + rad*2.5, offsetY);
+			CTX.lineTo( off + rad*2, offsetY+offS);
+			CTX.lineTo( off + rad, offsetY+offS);
+			CTX.lineTo( off + rad/2, offsetY);
+
+			CTX.moveTo( off + rad, offsetY-offS);
+			CTX.lineTo( off + rad/2, offsetY-offS*2);
+			CTX.lineTo( off, offsetY-offS*2);
+			CTX.stroke();
+
+
+			CTX.fillStyle = BLUE;
+			CTX.shadowBlur = 0;
+			CTX.font = offS*1.25+"px "+SERIF;
+			var length = CTX.measureText(time).width;
+			CTX.fillText( time, off + rad*width - (left? length : 0)-rad*.25, offsetY-offS-1);
+
+
+			CTX.fillStyle = BLACK;
+			CTX.shadowColor = GRAY;
+			CTX.shadowBlur = 1;
+
+			CTX.font = "bold "+RADIUS*1.5+"px "+SERIF;
+			CTX.fillText(title, off + rad*2.75 - (left ? 0 : CTX.measureText(title).width), offsetY+offS*.75);
+
+			CTX.fillStyle = GRAY;
+			CTX.font = RADIUS*1+"px "+SERIF;
+			CTX.fillText(from, off + rad*(width)- (left ? CTX.measureText(from).width : 0), offsetY+offS*.15);
+
+			CTX.fillStyle = DGRAY;
+			CTX.font = RADIUS*1+"px "+SERIF;
+			for(var i=0; i<3; i++)
+				CTX.fillText(text[i], off + rad*( left ? 1.25 : (width-.25)), offsetY+offS*(2.3+i*1.2) );
+
+			CTX.restore();
+		}
+
+		function drawTitleCenter(x, y, w, str){
+			CTX.save();
+
+			var offX = x*RADIUS*3  +( (y%2) == 0 ? -RADIUS*.5 : RADIUS),
+				offY = offS*y;
+
+			CTX.shadowColor = BLUE;
+			CTX.strokeStyle = BLUE;
+			CTX.fillStyle = BLUE;
+			CTX.shadowBlur = 3;
+			CTX.lineWidth = LINE;
+
+			CTX.beginPath();
+			CTX.moveTo( offX, offY);
+			CTX.lineTo( offX -RADIUS/2, offY+offS);
+			CTX.lineTo( offX -RADIUS*1.5, offY+offS);
+			CTX.lineTo( offX -RADIUS*2, offY);
+			CTX.lineTo( offX -RADIUS*1.5, offY-offS);
+			CTX.lineTo( offX -RADIUS/2, offY-offS);
+
+			for(var i=0; i<w; i++){
+				CTX.lineTo( offX +RADIUS*3*i, offY);
+				CTX.lineTo( offX +RADIUS*3*i+RADIUS, offY);
+				CTX.lineTo( offX +RADIUS*3*i+RADIUS*1.5, offY-offS);
+				CTX.lineTo( offX +RADIUS*3*i+RADIUS*2.5, offY-offS);
+			}
+
+			CTX.lineTo( offX +RADIUS*3*w, offY);
+			CTX.lineTo( offX +RADIUS*3*i-RADIUS*.5, offY+offS);
+			CTX.lineTo( offX +RADIUS*3*i-RADIUS*1.5, offY+offS);
+			CTX.lineTo( offX +RADIUS*3*w-RADIUS*2, offY);
+
+
+			CTX.stroke();
+
+			CTX.fillStyle = DARKBLUE;
+			CTX.font = TITLEFONT+"px "+SERIF;
+
+			CTX.fillText(str, offX + (RADIUS*3*(w-1) + RADIUS )/2 - CTX.measureText(str).width/2,  offY -LINE*2 -offS);
+
+			CTX.restore();
+		}
+
+
+		function drawTitle(off, title, left){
+			CTX.save();
+
+			var offsetY = offS *2 *off;
+			var rad = (left ? RADIUS : -RADIUS),
+				off = (left ? 0 : CTX.canvas.width);
+
+			CTX.shadowColor = BLUE;
+			CTX.strokeStyle = BLUE;
+			CTX.fillStyle = BLUE;
+			CTX.shadowBlur = 3;
+			CTX.lineWidth = LINE;
+
+			CTX.beginPath();
+			CTX.moveTo( off, offsetY);
+			CTX.lineTo( off + rad/2, offsetY);
+			CTX.lineTo( off + rad, offsetY+offS);
+
+			var end = 4
+			for(var i=0; i<end; i++){
+			CTX.lineTo( off + rad*(2 +i*3), offsetY+offS);
+			CTX.lineTo( off + rad*(2.5 +i*3), offsetY);
+			CTX.lineTo( off + rad*(3.5 +i*3), offsetY);
+			CTX.lineTo( off + rad*(4 +i*3), offsetY+offS);
+
+
+
+			}
+
+			end--;
+			CTX.lineTo( off + rad*(3.5 +end*3), offsetY+offS*2);
+			CTX.lineTo( off + rad*(2.5 +end*3), offsetY+offS*2);
+			CTX.lineTo( off + rad*(2 +end*3), offsetY+offS);
+
+			CTX.stroke();
+
+			CTX.fillStyle = DARKBLUE;
+			CTX.font = TITLEFONT+"px "+SERIF;
+
+			var offX = (left ? RADIUS/2 : CTX.canvas.width -RADIUS/2 -CTX.measureText(title).width);
+
+			CTX.fillText(title, offX, offsetY-LINE*2);
+
+			CTX.restore();
+		}
+
+		function drawGrid(){
+			CTX.save();
+
+			var offsetX = RADIUS*1.5,
+				offsetY = Math.sqrt( RADIUS*RADIUS - (RADIUS/2)*(RADIUS/2) );
+
+			CTX.fillStyle = "rgb(245,245,245)";
+			CTX.strokeStyle = WHITE;
+			CTX.shadowColor = "#ccc";
+			CTX.shadowBlur = 5;
+
+			var count = 0;
+
+			for(var i= 0,j; i<CTX.canvas.height+RADIUS; i+=offsetY){
+				count++;
+
+				for(j=0; j<CTX.canvas.width+RADIUS; j+=offsetX*2){
+					CTX.beginPath();
+					CTX.moveTo( j+ (count%2) *offsetX + Math.cos(0)*RADIUS, i+ Math.sin(0)*RADIUS);
+
+					for(var rad=0; rad<Math.PI*2; rad+=Math.PI/3)
+						CTX.lineTo( j+ (count%2) *offsetX + Math.cos(rad)*RADIUS, i+ Math.sin(rad)*RADIUS );
+
+					CTX.fill();
+					CTX.stroke();
+				}
+			}
+
+			CTX.restore();
+		}
+
+
+	</script>
 </head>
 <body>
-	<section>
-		<div class="head">
-			<h1>Développeur front-end</h1>
-		</div>
-		<div class="line"></div>
-		<div class ="info">
-			Ville: 90300 Lachapelle sous chaux<br/>
-			e-mail.: tristan.cardot@gmail.com<br/>
-			Tél.: 06.02.30.89.62<br/>
-		</div>
-	</section>
-	
-	<section>
-		<h1>Expériences professionnelle</h1>
-		<div class="line"></div>
-		
-		<div class="work">
-			<div class="line"></div>
-			<div class="logo"></div>
-			<h3>mars 2013 - juin 2013</h3>
-			<h2>Développeur python <span> General Electric</span></h2>
-			<p>
-				Ajout de fonctionnalités via framework (Spotfire).<br/>
-				Réactivité dans le traitement des demandes utilisateur.<br/>
-				Utilisatation de la documentation du framework & apprentissage du python.<br/>
-			</p>
-		</div>
-		<div class="work">
-			<div class="line"></div>
-			<div class="logo" style="background-position: -60px 0px;"></div>
-			<h3>septembre 2011 - juillet 2013</h3>
-			<h2>Développeur java <span> Amadora/Nimeria</span></h2>
-			<p>
-				Serveur de jeu minecraft, apprentissage du java.<br/>
-				Developpement client/serveur<br/>
-				Réflexion et mise en pratique d'ajouts innovants.<br/>
-			</p>
-		</div>
-		<div class="work">
-			<div class="line"></div>
-			<div class="logo" style="background-position: -30px 0px;"></div>
-			<h3>mai 2010 - juillet 2010</h3>
-			<h2>Gestion informatique <span> Serrib</span></h2>
-			<p>
-				Mise à niveau de parc informatique.<br/>
-				Refonte de la partie client du site.<br/>
-				Interaction utilisateur.<br/>
-			</p>
-		</div>
-	</section>
-	
-	<section>
-		<h1>Formation</h1>
-		<div class="line"></div>
-		
-		<div class="training">
-			<div class="line"></div>
-			<div class="logo" style="background-position: -30px -30px;"></div>
-			<h3>2013 - 2014</h3>
-			<h2>Technologies web html5/css3 javascript/node.js <span> autodidacte</span></h2>
-		</div>
-		<div class="training">
-			<div class="line"></div>
-			<div class="logo" style="background-position: -60px -30px;"></div>
-			<h3>2012 - 2013</h3>
-			<h2>LP administration/maintenance systèmes-applications répartis <span> Belfort</span></h2>
-		</div>
-		<div class="training">
-			<div class="line"></div>
-			<div class="logo" style="background-position: -90px -30px;"></div>
-			<h3>2009 - 2012</h3>
-			<h2>BTS informatique et réseaux pour l'industrie et les services <span> Belfort</span></h2>
-		</div>
-		<div class="training">
-			<div class="line"></div>
-			<div class="logo" style="background-position: -90px 0px;"></div>
-			<h3>2006 - 2009</h3>
-			<h2>baccalauréat technologique génie electronique <span> Belfort</span></h2>
-		</div>
-	</section>
-	
+	<canvas height=1671 width=1186>
 
-	<section>
-		<h1>Compétences</h1>
-		<div class="line"></div>
-		
-		<div class="skill">
-			<h2><a href="http://tristancardot.github.io/">http://tristancardot.github.io/</a></h2>
-		</div>
-	</section>
-	
+	</canvas>
+
 </body>
 </html>
