@@ -52,3 +52,7 @@ body>section {
 section.scrolling-background {
 	box-shadow: inset 0px 12px 20px -5px black, inset 0px -12px 20px -5px black
 }
+
+a.mail{
+	text-shadow: 1px 1px #81D4FA,-1px 1px #81D4FA;
+}

@@ -157,7 +157,7 @@
 				self.scroll.buffer -= off;
 
 
-			document.body.style.marginTop = '-'+ self.scroll.pos +'px';
+			document.body.style.transform = 'translateY(-'+ self.scroll.pos +'px)';
 
 			while(self.events.length !== 0 && 
 				  (self.events[0].target.offsetTop + self.events[0].target.offsetHeight) < 

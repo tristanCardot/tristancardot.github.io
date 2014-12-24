@@ -155,7 +155,7 @@
 			};
 
 			var scroll = function(e){
-				if( element[0].offsetTop + element[0].offsetHeight + parseInt(document.body.style.marginTop) < 0)
+				if( element[0].offsetTop + element[0].offsetHeight + parseInt( document.body.style.transform.substring(11) ) < 0)
 					outside = true;
 
 				else{
@@ -168,7 +168,7 @@
 				window.addEventListener('mousewheel', scroll, false);
 			else
 				window.addEventListener('DOMMouseScroll', scroll, false);
-
+			window.addEventListener('touchmove', scroll, false);
 
 			tick();
 		},
