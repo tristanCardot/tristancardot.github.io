@@ -1,125 +1,290 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<meta name="description" content="portfolio">
-	<meta name="author" content="tristan cardot">
+<html ng-app="portfolioApp">
+	<head>
+		<title>tristan CARDOT</title>
+		<style>
+			body{
+				position: fixed;
+				top: 0;
+				left: 0;
+				min-width: 800px;
+				width: 100vw;
+				height: 100vh;
 
-	<title>portfolio tristan cardot</title>
-	<style id="frameStyle"></style>
-	<link href='style/main.css' rel='stylesheet' type='text/css'>
-	<script id="frameScript" type='text/javascript'></script>
-	<script src='js/main.js' type='text/javascript'></script>
-</head>
-<body>
-	<canvas id="canvas"></canvas>
-	<div id=container style="opacity:0;"></div>
+				margin: 0px;
+				padding: 0px;
 
-	<div id=list>
-	</div>
-	<header class ="hide">
-		<nav>
-			<a href="#experimentation" class="section top left hide">
-				<span class="info">
-					Une liste des expérimentations que j'ai entrepris, afin de mieux connaitre le javascript en particulier.
-				</span>
-				<div class="title">
-					<h2>Expérimentations</h2>
-				</div>
-				<svg id="svgExp">
-					<g transform="translate(50,50) scale(1)">
-						<circle cx="0" cy="0"  r="0" fill="white"/>
-						<circle cx="0" cy="0"  r="0" fill="white"/>
-						<circle cx="0" cy="0"  r="0" fill="white"/>
-						<circle cx="0" cy="0"  r="0" fill="white"/>
-						<circle cx="0" cy="0"  r="0" fill="white"/>
-						<circle cx="0" cy="0"  r="0" fill="white"/>
+				overflow: hidden;
 
-						<path d="M -10,-30 L -10,-5 L -30,25 L 30,25 L 10,-5 L 10,-30"/>
-					</g>
-				</svg>
+				font-family: 'Oswald', sans-serif;
+				background-color: #333333;
+			}
+
+
+			section#loader{
+				position: absolute;
+				display: flex;
+				z-index: 100;
+
+				top: 0px;
+				left: 0px;
+				height: 100vh;
+				width: 100vw;
+				padding: 0;
+
+				opacity: 1;
+				background-color: #333333;
+
+				justify-content: center;
+				align-items: center;
+
+				transition: opacity 800ms, visibility 800ms;
+			}
+
+			section#loader canvas{
+				display: inline-block;
+				height: 34.5vmin;
+				width: 34.5vmin;
+			}
+
+			section#loader.disable{
+				opacity: 0;
+				visibility: hidden;
+			}
+
+		</style>
+		<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css' async>
+	</head>
+	<body>
+	<!-- loader -->
+		<section id="loader">
+			<canvas id="canvasLoader" height="460" width="460"></canvas>
+		</section>
+		<script>
+			(function(){
+				window.loaderIsActive = true;
+
+				var ctx = document.getElementById('canvasLoader').getContext('2d');
+				ctx.lineWidth = 5;
+				ctx.scale(2,2)
+				ctx.translate(115,115);
+				ctx.strokeStyle = '#2196F3';
+
+				var radius = 70 *1.5;
+				var sin = Math.sin,
+					cos = Math.cos,
+					PI = Math.PI;
+
+				var lines = [
+					[-4.3301,91.25,-81.1899,46.875,-81.1899,-41.875,-71.4471,-36.25,-71.4471,41.25,-4.3301,80],
+					[-76.8598,-49.375,-4.3301,-91.25,-4.3301,-80,-67.117,-43.75],
+					[4.3301,91.25,81.1899,46.875,81.1899,-46.875,4.3301,-91.25,4.3301,-80,71.4471,-41.25,71.4471,41.25,4.3301,80]
+				];
+
+				function drawLine(list, color){
+					ctx.beginPath();
+					ctx.moveTo(list[0], list[1]);
+
+					for(var i=2; i<list.length; i+=2)
+						ctx.lineTo(list[i], list[i+1]);
+
+					ctx.fillStyle = color;
+					ctx.fill();
+				}
+
+				function drawHexagon(){
+					ctx.beginPath();
+
+					ctx.moveTo(0, radius);
+					for(var i=1; i<6; i++)
+						ctx.lineTo( sin(PI/3*i)*radius, cos(PI/3*i)*radius);
+
+					ctx.closePath();
+
+					ctx.fill();
+					ctx.stroke();
+				}
+
+				function mask(){
+					ctx.fillStyle = "#383838";
+					ctx.beginPath();
+					ctx.moveTo(0,0);
+					ctx.arc(0,0, radius*.9, PI/2, count/150*PI*2 + PI/2, true);
+					ctx.closePath();
+					ctx.fill();
+				}
+
+				var count = 0;
+				var overflowRender = 100;
+				function update(){
+					count++;
+
+					ctx.fillStyle = '#383838';
+					drawHexagon();
+
+					drawLine(lines[0], '#81D4FA');
+					drawLine(lines[1], '#03A9F4');
+					drawLine(lines[2], '#0277BD');
+					mask();
+
+					ctx.fillStyle = 'transparent';
+					drawHexagon();
+
+					if(window.loaderIsActive || (--overflowRender) !== 0 )
+						requestAnimationFrame(update);
+
+					if(!window.loaderIsActive)
+						document.getElementById('loader').className = 'disable';
+				}
+
+				update();
+			})();
+		</script>
+	<!-- app -->
+		<img src="img/logoHeader.png" class="ng-hide"/>
+		<img src="img/bg_1.png" class="ng-hide"/>
+		<img src="img/bg_2.png" class="ng-hide"/>
+		<script src="CSSUnifier.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.27/angular.min.js"></script>
+
+		<script src="portfolio.js"></script>
+		<script src="directive/squareFont.js"></script>
+		<script src="directive/customSection.js"></script>
+		<script src="service/scroll.js"></script>
+		<script src="directive/hexagonContainer.js"></script>
+		<script src="directive/hexagon/hexagon.js"></script>
+		<script src="directive/lineTitle/lineTitle.js"></script>
+		<script src="directive/iconHeader/iconHeader.js"></script>
+		<script src="directive/scrollingBackground.js"></script>
+
+
+	<!-- header -->
+		<header>
+			<square-font data-width="678" data-height="80"
+			             data-scale="6" data-interspace="1"
+			             data-data="['CARDOT TRISTAN']">
+			</square-font>
+			<span class="dev">développeur full stack</span>
+			<div class="logoContainer">
+				<icon-header></icon-header>
+			</div>
+		</header>
+
+	<!-- content -->
+		<section class="scrolling-background" data-background="'img/bg_1.png'" data-ratio="-.6">
+			<line-title data-title="'COMPÉTENCES'"></line-title>
+
+			<line-title data-title="'FRONT-END'" class="small"></line-title>
+			<hexagon-container>
+				<hexagon data-color="'#FFEB3B'" data-level="6" data-icon="'0 0'" data-bubble="'javascript'">
+					<div>Le <p>Javascript</p> est mon <p>language</p> <p>de</p> <p>prédilection</p>, sa nature <p>très</p> <p>flexible</p> et les api qu'il intégre me permettent de mettre en place de façon <p>efficace</p> des <p>applications</p> <p>complexes</p>.Le langage est fort d'une <p>large</p> <p>communauté</p> principalement basés sur le "libre" qui offre un soutien et des librairies d'une grande aide.</div>
+				</hexagon>
+				<hexagon data-color="'#FF5722'" data-level="6" data-icon="'-140px 0'" data-bubble="'html 5'">
+					<div>L'<p>HTML5</p> est le <p>fondement</p> d'une page web, il est mon <p>point</p> <p>d'entrée</p> entre l'<p>utilisateur</p> et l'<p>application</p>. La connaissance des possiblités qu'il m'offre me permettent de faire les bons choix afin d'avoir une <p>structure</p> des données <p>compréhensible</p> et <p>cohérente</p>.</div>
+				</hexagon>
+				<hexagon data-color="'#64B5F6'" data-level="6" data-icon="'-280px 0'" data-bubble="'css 3'">
+					<div>Le <p>Css3</p> est la pierre angulaire me permettant de donner à chaque application <p>une</p> <p>identitée</p> <p>visuelle</p> <p>propre</p>. Aussi bien par l'<p>apparence</p> que par le biais d'<p>animations</p>, il me permet de mettre en place <p>une</p> <p>véritable</p> <p>interactivité</p> visuelle entre l'application et l'utilisateur.</div>
+				</hexagon>
+				<hexagon data-color="'#F44336'" data-level="'practise'" data-icon="'-420px 0'" data-bubble="'webgl'">
+					<div><p>WebGL</p> me permet d'intégrer des <p>rendu</p> <p>3D</p>. Sa performance se fait ressentir par l'<p>accélération</p> <p>matérielle</p>. L'utilisation de <p>Three.js</p> et la connaisance de <p>GLSL</p> me permet de développer de tels rendu aisément.</div>
+				</hexagon>
+			</hexagon-container>
+			<hexagon-container class="second">
+				<hexagon data-color="'#F44336'" data-level="6" data-icon="'0 -280px'" data-bubble="'angular'">
+					<div><p>Angular</p> est une librairie parfaitement adaptée à mes besoin afin de contruire de façon <p>rapide</p> <p>et</p> <p>claire</p> des applications web. L'utilisation de <p>"best</p> <p>practices"</p> me permet de véritablement retirer le potentiel et l'<p>optimisation</p> qui me sont nécessaires afin de réaliser des <p>applications</p> se voulant <p>performantes</p>.</div>
+				</hexagon>
+				<hexagon data-color="'#9C27B0'" data-level="'practise'" data-icon="'0 -140px'" data-bubble="'polymer'">
+					<div><p class="title">[APPRENTISSAGE]</p><br/><p>Polymer</p> est une librairie spécialement créée afin de rendre la <p>création</p> <p>d'applications</p> le <p>plus</p> <p>simple</p> <p>et</p> <p>rapide</p> possible. Basé sur un système de <p>"component"</p>, elle me permet d'<p>étendre</p> <p>les</p> <p>possibilités</p> qui me sont offertes par l'<p>html5.</div>
+				</hexagon>
+				<hexagon data-color="'#673AB7'" data-level="6" data-icon="'-280px -280px'" data-bubble="'canvas'">
+					<div><p>Canvas</p> me permet d'intégrer des <p>rendu</p> <p>2D</p> contrairement à Webgl qui permet la 3D. Elle m'est cependant bien plus <p>simple</p> <p>d'utilisation</p> que cette dernière. Elle <p>convient</p> <p>parfaitement</p> pour le <p>rendu</p> <p>de</p> <p>graphique</p> ou autres <p>courbes</p> de <p>statistics</p>.</div>
+				</hexagon>
+			</hexagon-container>
+
+			<line-title data-title="'BACK-END'" class="small"></line-title>
+			<hexagon-container>
+				<hexagon data-color="'#8BC34A'" data-level="6" data-icon="'-560px 0'" data-bubble="'node.js'">
+					<div><p>Node.js</p> est le point d'entrée permettant d'<p>étendre</p> mon expertise du <p>Javascript</p> <p>au</p> <p>côté</p> <p>serveur</p>, créant ainsi la possiblité d'avoir un <p>même</p> <p>langage</p> côté <p>client</p> et <p>serveur</p>, il me permet ainsi un developpement plus homogène entre client et serveur. <p>Npm</p> met à notre disposition un <p>large</p> <p>choix</p> <p>de</p> <p>"packages"</p>. Node.js est aussi un serveur <p>très</p> <p>performant</p> grâce à son style <p>asynchrone</p>.</div>
+				</hexagon>
+				<hexagon data-color="'#795548'" data-level="6" data-icon="'-140px -140px'" data-bubble="'mongoDB'">
+					<div><p>MongoDB</p> est la base de données de type <p>NoSQL</p> que j'utilise le plus fréquement. Des librairies ou packages permettent de <p>l'utiliser</p> <p>de</p> <p>façon</p> <p>simple</p> <p>et</p> <p>rapide</p> dans la plupart des langages que j'utilise. La grande puissance de ce type de base de données et de <p>ne</p> <p>pas</p> <p>être</p> <p>restreinte</p> <p>par</p> <p>des</p> <p>schémas</p> <p>de</p> <p>données</p>.</div>
+				</hexagon>
+				<hexagon data-color="'#FFC107'" data-level="6" data-icon="'-280px -420px'" data-bubble="'SQL'">
+					<div><p>SQL</p> reste un language de communication avec les bases de données qui <p>peu</p> <p>se</p> <p>révéler</p> <p>trés</p> <p>utile</p> dans certains cas. Et même si son utilisation recule face au NoSQL, il reste bon de l'avoir à ma disposition et de <p>l'utiliser</p> <p>au</p> <p>besoin</p>.</div>
+				</hexagon>
+				<hexagon data-color="'#3F51B5'" data-level="6" data-icon="'-140px -280px'" data-bubble="'less'">
+					<div><p>Less</p> n'est pas à proprement parler un package serveur. Mais je considére son utilisation plus adaptée au coté serveur, afin de <p>rendre</p> <p>l'écriture</p> <p>du</p> <p>css</p> <p>plus</p> <p>lisible</p> et donner la <p>possibilité</p> <p>d'utiliser</p> <p>des</p> <p>fonctions</p> dans la définition du style.</div>
+				</hexagon>
+			</hexagon-container>
+
+			<line-title data-title="'DIVERS'" class="small"></line-title>
+			<hexagon-container>
+				<hexagon data-color="'#00BCD4'" data-level="'practise'" data-icon="'-280px -140px'" data-bubble="'dart'">
+					<div><p class="title">[APPRENTISSAGE]</p><p>Dart</p> me permet une structuration des applications plus stricte que Javascript, cela permet de rendre le <p>travail</p> <p>d'équipe</p> <p>plus</p> <p>rapide</p> <p>et</p> <p>lisible</p>. De plus il <p>intégre</p> des packages pour <p>angular</p> <p>et</p> <p>polymer</p>.</div>
+				</hexagon>
+				<hexagon data-color="'#3F51B5'" data-level="'practise'" data-icon="'-420px -140px'" data-bubble="'node-webkit'">
+					<div><p class="title">[APPRENTISSAGE]</p><p>Node-webkit</p> me permet la création d'<p>applications</p> <p>bureau</p>. <p>Basé</p> <p>sur</p> <p>Chromium</p> pour le rendu <p>et</p> <p>Node.js</p> pour la gestion, ces deux technologies se révéle une fois combinée trés efficases.</div>
+				</hexagon>
+				<hexagon data-color="'#009688'" data-level="6" data-icon="'-560px -140px'" data-bubble="'java'">
+					<div><p>java</p> J'ai derrière moi <p>plusieurs</p> <p>années</p> <p>de</p> <p>pratique</p> de ce langage. S'il n'est plus mon language de prédilection il reste un langage <p>orienté</p> <p>objet</p> que j'apprécie.</div>
+				</hexagon>
+			</hexagon-container>
+		</section>
+
+
+		<section>
+			<line-title data-title="'ENVIRONNEMENT'"></line-title>
+			<hexagon-container>
+				<hexagon data-color="'#FFC107'" data-level="6" data-icon="'-420px -280px'" data-bubble="'sublime-text 2'">
+					<div class="displayWhite">Sublime text 2 est l'éditeur de texte que j'utilise le plus, sa coloration et ses plugins en font un éditeur de texte performant et modulable.</div>
+				</hexagon>
+				<hexagon data-color="'#673AB7'" data-level="6" data-icon="'-560px -280px'" data-bubble="'eclipse'">
+					<div class="displayWhite">J'utilise Eclipse principalement lors du developpement de projets en java. Cet IDE offre touts les outils afin de pouvoir naviger et débuger des projets, qu'ils soient simples ou complexes.</div>
+				</hexagon>
+				<hexagon data-color="'#FF5722'" data-level="6" data-icon="'0 -420px'" data-bubble="'git'">
+					<div>Git est un outil qui m'est trés utile pour la gestion de projets. Il permet la création de versions et branches pour le développement et la mise en production des projets.</div>
+				</hexagon>
+			</hexagon-container>
+		</section>
+
+
+		<section class="scrolling-background" data-background="'img/bg_2.png'" data-ratio="-.6">
+			<line-title data-title="'FORMATIONS'"></line-title>
+			<hexagon-container>
+				<hexagon data-color="'#FF5722'" data-level="6" data-icon="'-420px -420px'" data-bubble="'autodidacte'">
+					<div class="displayWhite"><p class="title">autodidacte</p><br><br>Une année et demie dédiée à l'apprentissage et approfondisement des technologies du web. Afin de pouvoir m'ouvrir aux technologies vecteur de nouveautés.</div>
+				</hexagon>
+				<hexagon data-color="'#673AB7'" data-level="6" data-icon="'-560px -420px'" data-bubble="'licence pro'">
+					<div class="displayWhite"><p class="title">Administration, maintenance de systèmes et d'applications répartis</p><br><br> Apprends à effectuer la réalisation technique et le développement informatique d'application réseau. Ainsi que leurs maintenance et mise à niveau. Elle comporte de plus les base pour la gestion de projets et la création de site web.</div>
+				</hexagon>
+				<hexagon data-color="'#FFC107'" data-level="6" data-icon="'-140px -420px'" data-bubble="'BTS'">
+					<div class="displayWhite"><p class="title">Informatique et Réseaux pour l'Industrie et les Services Techniques</p><br><br>Il vise à former des techniciens capables de développer et exploiter des applications et des systèmes informatiques, reliés ou non à un réseau d'entreprise.</div>
+				</hexagon>
+			</hexagon-container>
+		</section>
+
+
+		<section>
+			<line-title data-title="'EXPERIMENTATIONS'"></line-title>
+			<hexagon-container>
+				<hexagon data-color="'#444444'" data-level="0" data-icon="'0px -560px'"></hexagon>
+				<hexagon data-color="'#444444'" data-level="0" data-icon="'0px -560px'"></hexagon>
+				<hexagon data-color="'#444444'" data-level="0" data-icon="'0px -560px'"></hexagon>
+				<hexagon data-color="'#444444'" data-level="0" data-icon="'0px -560px'"></hexagon>
+			</hexagon-container>
+			<hexagon-container  class="second">
+				<hexagon data-color="'#444444'" data-level="0" data-icon="'0px -560px'"></hexagon>
+				<hexagon data-color="'#444444'" data-level="0" data-icon="'0px -560px'"></hexagon>
+				<hexagon data-color="'#444444'" data-level="0" data-icon="'0px -560px'"></hexagon>
+			</hexagon-container>
+		</section>
+
+
+		<section class="scrolling-background" data-background="'img/bg_1.png'" data-ratio="-.6">
+			<line-title data-title="'CONTACT'"></line-title>
+			<a href="mailto:tristan.cardot@gmail.com">
+				<line-title data-title="'tristan.cardot@gmail.com'" class="small"></line-title>
 			</a>
-
-			<a href="#about" class="section top right hide">
-				<span class="info">
-					Si vous souhaitez en connaître plus sur mes centres d'intérêts c'est par là que ça se passe!
-				</span>
-				<div class="title">
-					<h2>À propos de moi</h2>
-				</div>
-				<svg id="svgAbout">
-					<g transform="translate(50,50) scale(.5)">
-						<rect x="-75" y="30" rx="30" ry="20" width="150" height="90" fill="white"/>
-						<rect x="-35" y="-45" rx="35" ry="40" width="70" height="80" fill="white"/>
-						<g transform="scale(0)">
-							<path d="M 20,-48 L 50,-75 Z"/>
-							<rect x="10" y="-160" rx="200" ry="150" width="260" height="130" fill="white"/>
-							<path class="text"
-							d="M 50,-130 v10 h30 v-10 h10 v10 h20 v15 v-15 h20 v-15 v15 h20 v15 v-15 h30 v-15 v15 h20
-							   M 50,-100 v25 v-15 h20 v-10 h10 v10 h20 v15 v-15 h20 v-10 h10 v10 h20 v15 v-15 h20 v-15 v15 h20 v15 v-15 h20
-							   M 50,-60 h20 v-15 v15 h20 v10 h10 v-10 h20 v-15 v15 h20 v10 h10 v-10 h10 v-10 h10 v10 h20 v15 v-15 h20"/>
-						</g>
-					</g>
-				</svg>
-			</a>
-
-			<a href="CV_Tristan_CARDOT.pdf" target="_blank" class="section bottom left hide">
-				<span class="info">
-					Un simple lien vers mon curriculum vitae. Où vous retrouverez la liste de mes formations et expériences professionnelles.
-				</span>
-				<div class="title">
-					<h2>Curriculum vitae</h2>
-				</div>
-				<svg id="svgCV">
-					<g transform="translate(50,77) scale(1.75)">
-						<path d="M 25,-35 v75 h-50 v-75 h45 v5 l-10 30 l-10 -30 h-20 v30 h18" style="stroke-width:4; stroke-dasharray: 381px; stroke-dashoffset: -250px;"/>
-						<path d="M -20,15 h40 v5 h-40 v5 h40 v5 h-40 v5 h40 v-5 h-40 v-5 h40 v-5 h-40  z" style="stroke-width:3; stroke-dasharray: 9px;"/>
-					</g>
-				</svg>
-			</a>
-
-			<a href="#game" class="section bottom right hide">
-				<span class="info">
-					Une liste des jeux que j'ai crée.
-				</span>
-				<div class="title">
-					<h2>Mes jeux</h2>
-				</div>
-				<svg id="svgGame">
-					<g transform="translate(50,50) scale(.8) rotate(0)">
-						<path d="M -50,-30 v20 h20 v40 h10 v20 h10 v-20 h20 v20 h10 v-20 h10 v-40 h10 v10 h10 v-20 h-20 v-20 h-60 v20 h-10 v-10 z
-						m 27,7 h17 v17 h-17 z m 30,0 h17 v17 h-17 z"
-						style="fill: white; stroke-width: 4;"/>
-					</g>
-				</svg>
-			</a>
-		</nav>
-
-		<svg viewBox="0 0 100 100" id="home">
-			<g transform="translate(50,50) scale(.9)">
-				<path d="M10,-40 h20 v80 h-20 z" class="LCI" style="stroke: rgb(200,200,200);"/>
-				<path d="M-30,-40 h60 v20 h-40 v40 h40 v20 h-60 z" class="LCI" style="stroke: rgb(220,220,220);"/>
-				<path d="M-30,-40 h20 v60 h40 v20 h-60 z" class="LCI" style="stroke: rgb(240,240,240);"/>
-			</g>
-		</svg>
-	</header>
-	<div id="work"> Work in progress ! </div>
-  </body>
+		</section>
+	</body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

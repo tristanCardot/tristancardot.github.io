@@ -1,0 +1,105 @@
+line-title {
+	display: block;
+	position: relative;
+	width: 900px;
+
+	margin: 5px auto;
+	padding: 15px;
+	color: white;
+}
+
+line-title div {
+	border-top: solid 8px white;
+	margin-top: 29px;
+}
+
+line-title div.line{
+	position: absolute;
+	height: 0px;
+	width: 50%;
+	transition: transform;
+	transition-duration: inherit;
+}
+
+line-title.display div.line {
+	transform: scale(0, 1);
+}
+
+line-title div.left-line {
+	right: 0px;
+	transform-origin: 100% 50%;
+}
+
+line-title div.right-line {
+	left: 0px;
+	transform-origin: 0% 50%;
+}
+
+line-title p {
+	opacity: 0;
+	font-size: 45px;
+	display: inline-block;
+
+	padding: 0px 2px;
+	margin: 0px;
+
+	transition-property: opacity;
+	transition-duration: inherit;
+}
+
+line-title.display p {
+	opacity: 1;
+}
+
+line-title div.static {
+	position: absolute;
+
+	height: 0px;
+	width: 50px;
+}
+
+line-title div.static-left {
+	left: 0px;
+	margin-left: -50px;
+}
+
+line-title div.static-right {
+	right: 0px;
+	margin-right: -50px;
+}
+
+
+line-title.small{
+	color: #BDBDBD;
+	padding: 0px 15px;
+}
+
+line-title.small div{
+	border-top: solid 4px #BDBDBD;
+	margin-top: 44px;
+}
+
+line-title.small p{
+	font-size: 35px;
+}
+
+line-title.small div.line {
+	transform: scale(0, 1);
+}
+
+line-title.small div.left-line {
+	right: 0px;
+	transform-origin: 0% 50%;
+}
+
+line-title.small div.right-line {
+	left: 0px;
+	transform-origin: 100% 50%;
+}
+
+line-title.small.display div.line {
+	transform: scale(1, 1);
+}
+line-title.small div.static{
+	display: none;
+}

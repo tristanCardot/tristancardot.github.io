@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>CV Tristan CARDOT</title>
+	<style>
+		body{
+			margin:0px;
+		}
+
+		canvas{
+		}
+
+	</style>
+	<script>
+		function SquareFont(ctx, color, scale, space){
+			this.ctx = ctx;
+			this.color = color;
+			this.scale = scale;
+			this.space = space;
+			this.total = scale + space;
+			this.charWidth = this.total*7;
+
+			this.lastUpdate = 0;
+			this.animations = [];
+			this.run = false;
+
+			ctx.fillStyle = color;
+			ctx.globalAlpha = .12;
+		}
+		
+		SquareFont.prototype = {
+			offset : [0,0,0,0,0, 0,0,0,0,0],
+
+			updateOffset : function(from, to){
+				for(var i=0; i<this.offset.length; i++){
+					this.offset[i] = ~~(Math.random()*(to-from) + from );
+				}
+			},
+
+			drawChar : function(carater, x, y){
+				this.ctx.clearRect(x, y, (this.total)*6, (this.total)*10);
+				this.ctx.fillStyle = this.color;
+
+				for(var i=0,j; i<6; i++)
+					for(j=0; j<10; j++)
+						if( this.characters[carater][j]>>(5-i) & 1 )
+							this.ctx.fillRect(x+ i*this.total, y+ j*this.total, this.scale, this.scale);
+			},
+
+			drawString : function(str, x, y){
+				str = str.toUpperCase().replace(/[^A-Z0-9 \/.!?]/g, '.');
+				this.updateOffset(0,10);
+				var self = this;
+
+				for(var i=0; i<str.length; i++)
+					this.animations.push(
+						(function(){
+							var space = new AnimatedChar(' ', x+i*self.charWidth, y);
+							space.time -= space.delay *6 *i;
+							return space;
+						})(),
+
+						(function(character){
+							var animation = new AnimatedChar(character, x+i*self.charWidth, y);
+							animation.time -= animation.delay *6 *(i+1);
+							return animation;
+						})( str.charAt(i))
+					);
+
+				this.start();
+			},
+
+			start : function(){
+				if(!this.run){
+					this.run = true;
+					this.update(this);
+				}
+			},
+
+			update : function(self){
+				var delta = Math.min(Date.now() - this.lastUpdate, 30);
+				var needUpdate = false;
+
+				for(var i=0; i<this.animations.length; i++)
+					needUpdate |= this.animations[i].update(this.ctx, delta);
+
+				if(needUpdate)
+					requestAnimationFrame(function(){
+						self.update(self);
+					});
+
+				else
+					this.run = false;
+			}
+		};
+
+		SquareFont.prototype.characters = (function(){
+			var result = {};
+			var replace = function(str){
+				return str.replace(/█| /g,function(c){return c === ' ' ? '0':'1';});
+			};
+
+			var str = [
+				replace(' ████ _█████ _ ████ _█████ _██████_██████_ █████_██  ██_██████_██████_██  ██_██    _█    █_██  ██_ ████ _█████ _ ████ _█████ _ █████_██████_██  ██_█    █_█    █_██  ██_██  ██_██████_      _    ██_██████_   ██ _██████_██████_██    _██████_██████_██████_██████_██████_      _ ██   _ ████ '),
+				replace('██████_██████_██████_██████_██████_██████_██████_██  ██_██████_██████_██ ███_██    _██  ██_██  ██_██████_██████_██████_██████_██████_██████_██  ██_█    █_█    █_██  ██_██  ██_██████_      _    ██_██████_   ██ _██████_██████_██    _██████_██████_██████_██████_██████_      _ ██   _██████'),
+				replace('██  ██_██  ██_██  ██_██  ██_██    _██    _██    _██  ██_  ██  _   ██ _█████ _██    _██  ██_███ ██_██  ██_██  ██_██  ██_██  ██_██    _  ██  _██  ██_██  ██_█    █_██████_██  ██_   ███_      _   ██ _██  ██_   ██ _    ██_    ██_██    _██    _██    _    ██_██  ██_██  ██_      _ ██   _██  ██'),
+				replace('██  ██_██  ██_██    _██  ██_██    _██    _██    _██  ██_  ██  _   ██ _████  _██    _██████_███ ██_██  ██_██  ██_██  ██_██  ██_██    _  ██  _██  ██_██  ██_█    █_ ████ _██  ██_  ███ _      _   ██ _██  ██_   ██ _    ██_    ██_██ █  _██    _██    _    ██_██  ██_██  ██_      _ ██   _█   ██'),
+				replace('██  ██_█████ _██    _██  ██_████  _████  _██ ███_██████_  ██  _   ██ _███   _██    _██████_██████_██  ██_██████_██  ██_██████_█████ _  ██  _██  ██_██  ██_█ ██ █_  ██  _██████_  ███ _      _  ██  _██  ██_   ██ _██████_██████_██████_██████_██████_    ██_██████_██████_      _ ██   _   ██ '),
+				replace('██████_█████ _██    _██  ██_████  _████  _██ ███_██████_  ██  _   ██ _███   _██    _█ ██ █_██████_██  ██_█████ _██  ██_█████ _ █████_  ██  _██  ██_██  ██_█ ██ █_  ██  _ ████ _ ███  _      _  ██  _██  ██_   ██ _██████_██████_██████_██████_██████_    ██_██████_██████_      _ ██   _  ██  '),
+				replace('██████_██  ██_██    _██  ██_██    _██    _██  ██_██  ██_  ██  _   ██ _████  _██    _█ ██ █_██ ███_██  ██_██    _██  ██_████  _    ██_  ██  _██  ██_ ████ _██████_ ████ _  ██  _ ███  _      _ ██   _██  ██_   ██ _██    _    ██_  ██  _    ██_██  ██_    ██_██  ██_    ██_      _ ██   _  ██  '),
+				replace('██  ██_██  ██_██  ██_██  ██_██    _██    _██  ██_██  ██_  ██  _██ ██ _█████ _██    _█    █_██ ███_██  ██_██    _██ ███_█████ _    ██_  ██  _██  ██_ ████ _██  ██_██████_  ██  _███   _      _ ██   _██  ██_   ██ _██    _    ██_  ██  _    ██_██  ██_    ██_██  ██_    ██_      _      _      '),
+				replace('██  ██_██████_██████_██████_██████_██    _██████_██  ██_██████_█████ _██ ███_██████_█    █_██  ██_██████_██    _██████_██ ███_██████_  ██  _██████_  ██  _ █  █ _██  ██_  ██  _██████_      _██    _██████_   ██ _██████_██████_  ██  _██████_██████_    ██_██████_██████_ ██   _ ██   _  ██  '),
+				replace('██  ██_█████ _ ████ _█████ _██████_██    _ ████ _██  ██_██████_ ███  _██  ██_██████_█    █_██  ██_ ████ _██    _ █████_██  ██_█████ _  ██  _ ████ _  ██  _ █  █ _██  ██_  ██  _██████_      _██    _██████_   ██ _██████_██████_  ██  _██████_██████_    ██_██████_██████_ ██   _ ██   _  ██  ')                              
+			];
+
+			var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ /0123456789.!?';
+			for(var i=0,end = characters.length*7; i<end; i+=7)
+				result[characters.charAt( ~~(i/7) )] = (function(){
+						var result = [];
+
+						for(var j=0; j<10; j++)
+							result.push( parseInt( str[j].substr(i,6), 2) );
+
+						return result;
+					})();
+
+			return result;
+		})();
+
+		window.onload = function(){
+			var SF = new SquareFont( document.getElementsByTagName('canvas')[0].getContext('2d'), '#00AAFF', 5, 1);
+			AnimatedChar.prototype.SF = SF
+
+			this.SF = SF;
+		};
+
+		function AnimatedChar(character, x, y){
+			this.character = character;
+			this.x = x;
+			this.y = y;
+
+			this.time = 0;
+			this.tickCount = -10;
+		}
+
+		AnimatedChar.prototype = {
+			SF : null,
+			delay: 25,
+
+			update : function(ctx, delta){
+				var needUpdate = false;
+				this.time += delta;
+
+				while(this.time > this.delay){
+					this.time -= this.delay;
+					needUpdate |= this.tick(ctx);
+				}
+				return needUpdate;
+			},
+
+			tick : function(ctx){
+				var SF = this.SF;
+				var needUpdate = false;
+
+				for(var i=0, from, to, j; i<SF.offset.length; i++){
+					from = Math.max( this.tickCount  -SF.offset[i], 0);
+					to =   Math.min( this.tickCount+10-SF.offset[i], 6);
+
+					if(from > 6)
+						continue;
+
+					needUpdate = true;
+
+					for(j=from; j<to; j++)
+						if( (SF.characters[this.character][i]>>(5-j) &1) === 0){
+							if(j === from)
+								ctx.clearRect(this.x + SF.total*j, this.y + SF.total*i, SF.scale, SF.scale);
+						}else
+							ctx.fillRect(this.x + SF.total*j, this.y + SF.total*i, SF.scale, SF.scale);
+				}
+				this.tickCount++;
+				return needUpdate;
+			}
+		};
+
+
+
+	</script>
+</head>
+<body>
+	<canvas height=600 width=900>
+
+	</canvas>
+
+</body>
+</html>

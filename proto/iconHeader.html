@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			body{
+				background-color: #333333;
+				margin: 0px;
+			}
+
+			div#container{
+				position: relative;
+				margin: solid 1px white;
+				height: 500px;
+				width: 500px;
+				overflow: hidden;
+			}
+
+			div#container div{
+				position: absolute;
+				top: -3px;
+				left: -3px;
+				width: 100%;
+				height: 100%;
+
+				display: inline-block;
+				-webkit-animation: pulse 1600ms infinite ease-out;
+				border-radius:50%;
+				border: solid 3px #00AAFF;
+			}
+
+			div#container div:nth-of-type(2){
+				top: -5px;
+				left: -5px;
+				-webkit-animation-delay: 200ms;
+				border: solid 5px #00AAFF;
+			}
+			div#container div:nth-of-type(3){
+				top: -7px;
+				left: -7px;
+				-webkit-animation-delay: 350ms;
+				border: solid 7px #00AAFF;
+			}
+
+			canvas{
+				position: absolute;
+				height: 500px;
+				width: 500px;
+			}
+
+			@-webkit-keyframes pulse{
+				from{ transform: scale(0);}
+				to{ transform: scale(1);}
+			}
+
+		</style>
+	</head>
+	<body>
+		<div id="container">
+			<div></div><div></div><div></div>
+			<canvas id="canvas" height="1000" width="1000"></canvas>
+		</div>
+			<canvas id="canvas2" height="1000" width="1000"></canvas>
+		<script>
+			var ctx = document.getElementById('canvas').getContext('2d');
+			var sin = Math.sin,
+			    cos = Math.cos,
+			    PI = Math.PI,
+			    sqrt = Math.sqrt;
+
+			var radius = 70,
+			    offset = 5;
+
+			function drawLogo(x, y){
+				//#4FC3F7
+				//#03A9F4
+				//#0288D1
+
+				var off  = ctx.lineWidth,
+				    offP = -off*1.5,
+				    offN = -off*3;
+
+
+				ctx.lineWidth = ctx.lineWidth*2;
+				ctx.beginPath();
+				ctx.moveTo(x                                -cos(-PI/6)*off,  y + cos(PI/3*0)*(radius+offP)*1.5 +sin(-PI/6)*off );
+				ctx.lineTo(x - sin(PI/3*1)*(radius+offP)*1.5               ,  y + cos(PI/3*1)*(radius+offP)*1.5                );
+				ctx.lineTo(x - sin(PI/3*2)*(radius+offP)*1.5 -cos(PI/2)*off,  y + cos(PI/3*2)*(radius+offP)*1.5 +sin(PI/2)*off );
+				ctx.lineTo(x - sin(PI/3*2)*(radius+offN)*1.5 -cos(PI/2)*off,  y + cos(PI/3*2)*(radius+offN)*1.5 +sin(PI/2)*off );
+				ctx.lineTo(x - sin(PI/3*1)*(radius+offN)*1.5               ,  y + cos(PI/3*1)*(radius+offN)*1.5                );
+				ctx.lineTo(x                                -cos(-PI/6)*off,  y + cos(PI/3*0)*(radius+offN)*1.5 +sin(-PI/6)*off );
+				ctx.fillStyle = '#81D4FA';
+				ctx.fill();
+
+
+				ctx.beginPath();
+				ctx.moveTo(x - sin(PI/3*2)*(radius+offP)*1.5 -cos(-PI/6*5)*off, y + cos(PI/3*2)*(radius+offP)*1.5 +sin(-PI/6*5)*off);
+				ctx.lineTo(x - sin(PI/3*3)*(radius+offP)*1.5 -cos(PI/6)*off   , y + cos(PI/3*3)*(radius+offP)*1.5 +sin(PI/6)*off   );
+				ctx.lineTo(x - sin(PI/3*3)*(radius+offN)*1.5 -cos(PI/6)*off   , y + cos(PI/3*3)*(radius+offN)*1.5 +sin(PI/6)*off   );
+				ctx.lineTo(x - sin(PI/3*2)*(radius+offN)*1.5 -cos(-PI/6*5)*off, y + cos(PI/3*2)*(radius+offN)*1.5 +sin(-PI/6*5)*off);
+				ctx.fillStyle = '#03A9F4';
+				ctx.fill();
+
+
+				ctx.beginPath();
+				ctx.moveTo(x                                 -cos(-PI/6*5)*off, y + cos(PI/3*0)*(radius+offP)*1.5 +sin(-PI/6*5)*off );
+				ctx.lineTo(x + sin(PI/3*1)*(radius+offP)*1.5                  , y + cos(PI/3*1)*(radius+offP)*1.5 );
+				ctx.lineTo(x + sin(PI/3*2)*(radius+offP)*1.5                  , y + cos(PI/3*2)*(radius+offP)*1.5 );
+				ctx.lineTo(x + sin(PI/3*3)*(radius+offP)*1.5 -cos(PI/6*5)*off , y + cos(PI/3*3)*(radius+offP)*1.5 +sin(PI/6*5)*off  );
+
+				ctx.lineTo(x + sin(PI/3*3)*(radius+offN)*1.5 -cos(PI/6*5)*off , y + cos(PI/3*3)*(radius+offN)*1.5 +sin(PI/6*5)*off  );
+				ctx.lineTo(x + sin(PI/3*2)*(radius+offN)*1.5                  , y + cos(PI/3*2)*(radius+offN)*1.5 );
+				ctx.lineTo(x + sin(PI/3*1)*(radius+offN)*1.5                  , y + cos(PI/3*1)*(radius+offN)*1.5 );
+				ctx.lineTo(x                                 -cos(-PI/6*5)*off, y + cos(PI/3*0)*(radius+offN)*1.5 +sin(-PI/6*5)*off );
+				ctx.fillStyle = '#0277BD';
+				ctx.fill();
+			}
+
+			function drawHexagon(x, y, radius){
+				ctx.beginPath();
+				ctx.moveTo(x, y+radius);
+
+				for(var i=1; i<6; i++)
+					ctx.lineTo( x + sin(PI/3*i)*radius, y + cos(PI/3*i)*radius );
+
+				ctx.closePath();
+
+				ctx.fill();
+				ctx.stroke();
+			}
+
+			ctx.scale(2,2);
+			ctx.translate(250, 250);
+
+			var offX = Math.sqrt(radius*radius - radius*radius/4);//2²
+			var offY = radius *1.5;
+
+			ctx.fillStyle = '#383838';
+			ctx.strokeStyle = '#2196F3';
+			ctx.lineWidth = '5';
+
+			drawHexagon(   -offX,   -offY, radius*.95-offset);
+			drawHexagon(    offX,   -offY, radius*.95-offset);
+			drawHexagon( -offX*2,       0, radius*.95-offset);
+			drawHexagon(  offX*2,       0, radius*.95-offset);
+			drawHexagon(   -offX,    offY, radius*.95-offset);
+			drawHexagon(    offX,    offY, radius*.95-offset);
+
+			drawHexagon(       0, -offY*2, radius*.9 -offset);
+			drawHexagon( -offX*3,   -offY, radius*.9 -offset);
+			drawHexagon(  offX*3,   -offY, radius*.9 -offset);
+			drawHexagon( -offX*3,    offY, radius*.9 -offset);
+			drawHexagon(  offX*3,    offY, radius*.9 -offset);
+			drawHexagon(       0,  offY*2, radius*.9 -offset);
+
+			drawHexagon( -offX*2, -offY*2, radius*.85-offset);
+			drawHexagon(  offX*2, -offY*2, radius*.85-offset);
+			drawHexagon( -offX*4,       0, radius*.85-offset);
+			drawHexagon(  offX*4,       0, radius*.85-offset);
+			drawHexagon( -offX*2,  offY*2, radius*.85-offset);
+			drawHexagon(  offX*2,  offY*2, radius*.85-offset);
+
+
+			drawHexagon(0, 0, radius*1.5);
+			drawLogo(0,0);
+
+
+
+			var gradient = ctx.createRadialGradient(0, 0, radius*1.25, 0, 0, radius*3.4);
+			gradient.addColorStop(0,"rgba(51,51,51,0)");
+			gradient.addColorStop(1,"rgba(51,51,51,1)");
+
+			ctx.fillStyle = gradient;
+			ctx.fillRect(-250,-250, 500,500);
+
+
+
+
+			ctx = document.getElementById('canvas2').getContext('2d');
+			ctx.scale(2,2);
+			ctx.translate(100, 110);
+			ctx.fillStyle = '#383838';
+			ctx.strokeStyle = '#2196F3';
+			ctx.lineWidth = '5';
+
+			drawHexagon(0, 0, radius*1.5);
+			drawLogo(0,0);
+
+			ctx.fillStyle = '#383838';
+			ctx.strokeStyle = '#2196F3';
+			ctx.lineWidth = '5';
+
+			ctx.translate(200, 0);
+			drawHexagon(0, 0, radius*1.5);
+
+		</script>
+	</body>
+</html>

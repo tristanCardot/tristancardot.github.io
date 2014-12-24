@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			body{
+				margin: 0px;
+				padding: 0px;
+				background-position: 20px 20px;
+			}
+
+			canvas{
+				border: solid 1px #555555;
+				position: absolute;
+				top: 19px;
+				left: 19px;
+			}
+
+			div#pos{
+				position: absolute;
+				bottom: 0px;
+				color: #EEEEEE;
+				font-size: 40px;
+				text-shadow: 0px 0px 2px black;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="canvas" height="375" width="600"></canvas>
+		<div id="pos"></div>
+		<script>
+			var canvas = document.getElementById('canvas');
+			var ctx = canvas.getContext('2d');
+
+			ctx.fillStyle = '#303030';
+			ctx.fillRect(0,0,1200,800);
+
+			ctx.strokeStyle = '#242424';
+			ctx.fillStyle = '#282828';
+			//ctx.lineCap = 'round'
+
+			var lineWidth = 4;
+			var spacing = 50;
+			var hexagonRadius = 10;
+
+
+			function drawHexagon(x, y, radius, line){
+				ctx.lineWidth = line;
+
+				ctx.beginPath();
+
+				ctx.moveTo( x, y+radius);
+				for(var i=1; i<6; i++)
+					ctx.lineTo( x+Math.sin(Math.PI/3*i)*radius, y+Math.cos(Math.PI/3*i)*radius);
+
+				ctx.closePath();
+
+				ctx.fill();
+				ctx.stroke();
+			}
+
+			function Rand(seed){
+				this.seed = seed;
+				this.count = 0;
+				this.multi = this.getMulti(seed+0x5D3C);
+			}
+
+			Rand.prototype = {
+				getMulti : function(seed_){
+					var mX = seed_&0xFFFF,
+						mY = seed_>>8;
+
+					for(var i=0 ; i<16; i++){
+						mX = 36969 * (mX & 65535) + (mX >> 16);
+			    		mY = 18000 * (mY & 65535) + (mY >> 16);
+			    	}
+
+			    	return ( (mX << 16) + mY) & 0xFFFF;
+				},
+
+				next : function(){
+					var x = Math.sin(++this.count + this.seed) *this.multi;
+				    return x - Math.floor(x);
+				},
+
+				floor : function(coef){
+					return Math.floor( this.next() * coef);
+				},
+
+				getOne : function(list){
+					return list[ this.floor(list.length) ];
+				},
+
+				inRange : function(from, to){
+					return this.floor( to-from ) + from;
+				}
+			};
+
+			var seed = Math.floor(Math.random()*10000);
+			var rng = new Rand( seed );
+
+
+			var offY =  spacing*1.5/2;
+			var offX =  Math.sqrt( spacing*spacing - spacing/2*spacing/2  );
+			
+			for(var i=0,j;i<375; i+=offY)
+				for(j=-spacing; j<600+offX; j+=offX)
+					drawHexagon(j+( ((i/offY)%2) <.9 ? 0 : offX/2 ), i, spacing/3*(1.1+ (~~(j/offX + i/offY)%5)*.3/5 ), 3 );
+
+			rng.count = 0;
+			var i=offY*10;
+			for(j=-spacing; j<600+offX; j+=offX)
+					drawHexagon(j+ ( (i/offY)%2 <.9 ? 0 : offX/2 ), i, spacing/3*(1.1+ (~~(j/offX + i/offY)%5)*.3/5 ), 3 );
+
+
+
+
+			document.body.style.backgroundImage = 'url('+ canvas.toDataURL() +')';
+		</script>
+	</body>
+</div>   _____|

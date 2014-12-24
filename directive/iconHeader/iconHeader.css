@@ -1,0 +1,98 @@
+icon-header{
+	position: relative;
+	display: flex;
+	align-items: center;
+
+	height: 100vh;
+	width: 75vmin;
+
+	margin: 0 auto;
+
+}
+
+icon-header div.pulse{
+	z-index: -1;
+	display: inline-block;
+	position: absolute;
+
+	top: -3px;
+	left: -3px;
+	width: 100%;
+	height: 100%;
+
+	border-radius:50%;
+	border: solid 3px #2196F3;
+
+	animation: pulse 2000ms infinite ease-out;
+}
+
+icon-header div.pulse:nth-of-type(2){
+	top: -5px;
+	left: -5px;
+
+	animation-delay: 200ms;
+	border: solid 5px #2196F3;
+}
+icon-header div.pulse:nth-of-type(3){
+	top: -7px;
+	left: -7px;
+
+	animation-delay: 350ms;
+	border: solid 7px #2196F3;
+}
+
+icon-header div.logo{
+	position: relative;
+	height: 75vmin;
+	width: 75vmin;
+
+	overflow: hidden;
+
+	background-image: url(img/logoHeader.png);
+	background-size: 100% 100%;
+}
+
+icon-header div.arrow{
+	position: absolute;
+
+	top: 100vh;
+	left: 37.5vmin;
+	height: 0;
+	width: 0;
+
+	margin: -15vmin 0 0 -4.25vmin;
+}
+
+icon-header div.arrow div{
+	height: 7.5vmin;
+	width: 7.5vmin;
+
+	border-right: solid 1vmin #2196F3;
+	border-bottom: solid 1vmin #2196F3;
+
+	margin-top: -5vmin;
+
+	transform-origine: 0% 0%;
+	transform: rotate(45deg);
+	animation: 1s blink infinite ease-in-out;
+}
+
+icon-header div.arrow div:nth-of-type(2){
+	animation-delay: 100ms;
+}
+
+icon-header div.arrow div:nth-of-type(3){
+	animation-delay: 200ms;
+}
+
+@keyframes blink{
+	0%{opacity:1;}
+	25%{opacity:.2;}
+	50%{opacity:1;}
+}
+
+@keyframes pulse{
+	0%{ transform: scale(0); opacity:1;}
+	50%{ transform: scale(.45); opacity:1;}
+	100%{ transform: scale(1); opacity:0;}
+}

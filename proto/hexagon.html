@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+		body{
+			margin: 0px;
+		}
+
+		canvas{
+			border: solid 1px;
+		}
+
+	</style>
+</head>
+<body>
+	<canvas></canvas>
+	<canvas></canvas>
+	<canvas></canvas>
+	<canvas></canvas>
+
+	<canvas></canvas>
+	<canvas></canvas>
+	<canvas></canvas>
+	<canvas></canvas>
+
+	<div></div>
+
+	<script>
+		var canvas;
+		var ctx;
+		var radius = 50, off = 0;
+
+		//canvas.style.backgroundColor='#EEEEEE';
+
+		function pathHexa(x,y,r){
+			ctx.moveTo(x+r, y);
+
+			for(var i=1; i<8; i++)
+				ctx.lineTo(x + Math.cos(i*Math.PI/3)*r, y + Math.sin(i*Math.PI/3)*r);
+		}
+
+		function init(){
+			ctx = canvas.getContext('2d');
+
+			ctx.strokeStyle = '#FFFFFF';
+			ctx.fillStyle = '#EEEEEE';
+			ctx.lineWidth = 3;
+			ctx.shadowBlur = 3;
+			ctx.shadowColor = '#616161';
+		}
+
+
+		document.body.style.background = '#00AAFF';
+
+//--- FULL ---//
+		canvas = document.getElementsByTagName('canvas')[0];
+		canvas.height = Math.sqrt(radius*radius - (radius/2)*(radius/2) )*2;
+		canvas.width = radius*3;
+		init();
+
+		ctx.fillRect(0, 0, 250, 100);
+		for(var y=0; y<3; y++)
+			for(var x=0; x<2; x++)
+				pathHexa(off + x*radius*3 + (y%2 ? radius*1.5:0), off + y*Math.sqrt(radius*radius - (radius/2)*(radius/2) ) , radius);
+		ctx.stroke();
+
+		document.body.style.background = 'url('+ canvas.toDataURL() +')';
+
+//--- TOP ---//
+		canvas = document.getElementsByTagName('canvas')[1];
+		canvas.height = Math.sqrt(radius*radius - (radius/2)*(radius/2) )*2+15;
+		canvas.width = radius*3;
+		init();
+		for(var y=0; y<2; y++)
+			for(var x=0; x<2; x++)
+				pathHexa(off + x*radius*3 + (y%2 ? radius*1.5:0), off + y*Math.sqrt(radius*radius - (radius/2)*(radius/2) ) , radius);
+
+		ctx.fill();
+		ctx.stroke();
+		ctx.globalCompositeOperation = 'destination-over';
+		ctx.shadowColor = '#000000';
+		ctx.shadowBlur = 10;
+		ctx.shadowOffsetY = 2;
+		ctx.stroke();
+
+		var topURL = canvas.toDataURL();
+
+//--- BOTTOM ---//
+		canvas = document.getElementsByTagName('canvas')[2];
+		canvas.height = Math.sqrt(radius*radius - (radius/2)*(radius/2) )*2+15;
+		canvas.width = radius*3;
+		init();
+		ctx.translate(0,15);
+		for(var y=1; y<3; y++)
+			for(var x=0; x<2; x++)
+				pathHexa(off + x*radius*3 + (y%2 ? radius*1.5:0), off + y*Math.sqrt(radius*radius - (radius/2)*(radius/2) ) , radius);
+
+		ctx.fill();
+		ctx.stroke();
+		ctx.globalCompositeOperation = 'destination-over';
+		ctx.shadowColor = '#000000';
+		ctx.shadowBlur = 10;
+		ctx.shadowOffsetY = -2;
+		ctx.stroke();
+
+		var bottomURL = canvas.toDataURL();
+
+		document.getElementsByTagName('div')[0].style.width = '100%';
+		document.getElementsByTagName('div')[0].style.marginTop = '9px';
+		document.getElementsByTagName('div')[0].style.height = '250px';
+
+		document.getElementsByTagName('div')[0].style.background = '0% 0% url('+topURL+') repeat-x, 0% 100% url('+bottomURL+') repeat-x';
+
+//--- LEFT ---//
+		canvas = document.getElementsByTagName('canvas')[3];
+		canvas.height = Math.sqrt(radius*radius - (radius/2)*(radius/2) )*2;
+		canvas.width = radius*3;
+		init();
+
+		for(var y=0; y<3; y++)
+			for(var x=0; x<1; x++)
+				pathHexa(off + x*radius*3 + (y%2 ? radius*1.5:0), off + y*Math.sqrt(radius*radius - (radius/2)*(radius/2) ) , radius);
+
+		ctx.fill();
+		ctx.stroke();
+		ctx.globalCompositeOperation = 'destination-over';
+		ctx.shadowColor = '#000000';
+		ctx.shadowBlur = 10;
+		ctx.shadowOffsetX = 2;
+		ctx.stroke();
+
+//--- SURROUND ---//
+		canvas = document.getElementsByTagName('canvas')[4];
+		canvas.height = Math.sqrt(radius*radius - (radius/2)*(radius/2) )*6;
+		canvas.width = radius*6;
+		init();
+
+		var pos = [0,0, 1,0, 2,0,
+		              0,1, 1,1,
+		           0,2,      2,2,
+
+		           0,4,      2,4,
+		              0,5, 1,5,
+		           0,6, 1,6, 2,6];
+
+
+		for(var i=0; i<pos.length; i+=2)
+				pathHexa(off + pos[i]*radius*3 + (pos[i+1]%2 ? radius*1.5:0), off + pos[i+1]*Math.sqrt(radius*radius - (radius/2)*(radius/2) ) , radius);
+
+		ctx.fill();
+		ctx.stroke();
+		ctx.globalCompositeOperation = 'destination-over';
+		ctx.shadowColor = '#000000';
+		ctx.shadowBlur = 10;
+		ctx.shadowOffsetX = 2;
+		ctx.stroke();
+
+//--- SOLO ---//
+		canvas = document.getElementsByTagName('canvas')[5];
+		canvas.height = radius*2+20;
+		canvas.width = (radius*2+20)*2;
+		init();
+
+		var YT =  Math.sin(1*Math.PI/3)*radius,
+			YB =  Math.sin(5*Math.PI/3)*radius,
+			XOFF = radius - Math.cos(1*Math.PI/3)*radius;
+		function arrow(offX){
+			ctx.moveTo(offX+10,       radius+10+YT);
+			ctx.lineTo(offX+10 +XOFF*.85, radius+10+YT*.15);
+			ctx.lineTo(offX-20 -XOFF,      radius+10+YT*.15);
+
+			ctx.moveTo(offX+10,       radius+10+YB);
+			ctx.lineTo(offX+10 +XOFF*.85, radius+10+YB*.15);
+			ctx.lineTo(offX-20 -XOFF,      radius+10+YB*.15);
+		}
+
+		pathHexa(radius+10, radius+10, radius);
+		ctx.shadowBlur = 5;
+		ctx.fill();
+
+		arrow(radius+10);
+		ctx.stroke();
+
+		ctx.globalCompositeOperation = 'destination-over';
+		ctx.shadowColor = '#000000';
+		ctx.shadowBlur = 8;
+		ctx.stroke();
+
+
+
+
+
+		ctx.beginPath();
+		ctx.globalCompositeOperation = 'source-over';
+		ctx.shadowBlur = 8;
+		ctx.shadowColor = '#616161';
+
+		pathHexa(radius*2+20 + radius+10, radius+10, radius);
+		ctx.fill();
+
+		arrow(radius*2+20 + radius+10);
+		ctx.stroke();
+
+		ctx.globalCompositeOperation = 'destination-over';
+		ctx.shadowColor = '#000000';
+		ctx.shadowBlur = 12;
+		ctx.stroke();
+
+
+	</script>
+</body>

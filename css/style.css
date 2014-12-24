@@ -1,0 +1,54 @@
+/*HEADER*/
+header {
+	position: relative;
+	height: 100vh;
+	width: 100%;
+}
+
+header div.logoContainer{
+	display: inline-block;
+
+	width: 100vw;
+	height: 100vh;
+
+	margin-top: -15vmin;
+}
+
+header square-font{
+	position: relative;
+	display: block;
+
+	height: 15vmin;
+	width: 96vmin;
+
+	margin: 0 auto 0 auto;
+	z-index: 1;
+}
+header square-font canvas{
+	margin-top: 2vmin;
+	width: 100%;
+}
+
+header span.dev{
+	display: inline-block;
+	z-index: 1;
+	position: absolute;
+
+	width: 100vw;
+
+	color: #0277BD;
+	font-size: 11vmin;
+	text-shadow: -.2vmin -.2vmin #81D4FA, .2vmin .2vmin #03A9F4;
+	text-align: center;
+}
+
+/*SECTION*/
+
+body>section {
+	padding: 50px 0 260px 0;
+	background-size: 100% auto;
+}
+
+section.scrolling-background {
+	box-shadow: inset 0px 12px 20px -5px black, inset 0px -12px 20px -5px black
+}
