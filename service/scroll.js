@@ -122,6 +122,8 @@
 			}
 		},
 
+
+		DELAY : 15,
 		update : function(self, delta){delta/=25;
 			if(self.locked === true || self.scroll.buffer === 0)
 				return self.run = false;
@@ -130,15 +132,15 @@
 				if(firstFrame){
 					firstFrame = false;
 					lastTime = time;
-					requestAnimationFrame(request);
+					$timeout(request, self.DELAY);
 					return;
 				}
 
-				self.update(self, time-lastTime);
+				self.update(self, self.DELAY);
 				lastTime = time;
 			};
 
-			requestAnimationFrame(request);
+			$timeout(request, self.DELAY);
 
 			var abs = Math.abs(self.scroll.buffer);
 			var off = ~~Math.min( Math.max(2*delta, abs*.115*delta), abs) * (self.scroll.buffer<0 ? -1:1);

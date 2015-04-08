@@ -13,6 +13,7 @@
 				position: absolute;
 				top: 19px;
 				left: 19px;
+				background-color: red;
 			}
 
 			div#pos{
@@ -25,22 +26,24 @@
 		</style>
 	</head>
 	<body>
-		<canvas id="canvas" height="375" width="600"></canvas>
+		<canvas id="canvas" height="246" width="1278"></canvas>
 		<div id="pos"></div>
 		<script>
 			var canvas = document.getElementById('canvas');
 			var ctx = canvas.getContext('2d');
 
-			ctx.fillStyle = '#303030';
-			ctx.fillRect(0,0,1200,800);
+			var lineWidth = 3;
+			var spacing = 12;
+			canvas.height = spacing *42;
 
-			ctx.strokeStyle = '#242424';
-			ctx.fillStyle = '#282828';
+
+			ctx.fillStyle = '#d8b938';
+			ctx.fillRect(0,0,canvas.width,canvas.height);
+
+			ctx.strokeStyle = 'rgba(191,164,50,1.0)';
+			ctx.fillStyle = 'rgba(191,164,50,.5)';//#9E9E9E
 			//ctx.lineCap = 'round'
 
-			var lineWidth = 4;
-			var spacing = 50;
-			var hexagonRadius = 10;
 
 
 			function drawHexagon(x, y, radius, line){
@@ -101,17 +104,19 @@
 
 			var offY =  spacing*1.5/2;
 			var offX =  Math.sqrt( spacing*spacing - spacing/2*spacing/2  );
-			
-			for(var i=0,j;i<375; i+=offY)
-				for(j=-spacing; j<600+offX; j+=offX)
-					drawHexagon(j+( ((i/offY)%2) <.9 ? 0 : offX/2 ), i, spacing/3*(1.1+ (~~(j/offX + i/offY)%5)*.3/5 ), 3 );
+			var i=0,j;
+			for(i=0; i<canvas.height; i+=offY)
+				for(j=-spacing; j<=canvas.width+offX; j+=offX){
+					ctx.globalAlpha = rng.next()*.7+.15;
+					drawHexagon(j+( ((i/offY)%2) <.9 ? 0 : offX/2 ), i, spacing/2, lineWidth );
+				}
 
 			rng.count = 0;
-			var i=offY*10;
-			for(j=-spacing; j<600+offX; j+=offX)
-					drawHexagon(j+ ( (i/offY)%2 <.9 ? 0 : offX/2 ), i, spacing/3*(1.1+ (~~(j/offX + i/offY)%5)*.3/5 ), 3 );
 
-
+			for(j=-spacing; j<=canvas.width+offX; j+=offX){
+				ctx.globalAlpha = rng.next()*.7+.15;
+				drawHexagon(j+ ( (i/offY)%2 <.9 ? 0 : offX/2 ), i, spacing/2, lineWidth );
+			}
 
 
 			document.body.style.backgroundImage = 'url('+ canvas.toDataURL() +')';

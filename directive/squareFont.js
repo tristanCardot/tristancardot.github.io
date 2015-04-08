@@ -221,9 +221,9 @@
 				needUpdate |= this.animations[i].update(this.ctx, delta, this);
 
 			if(needUpdate)
-				requestAnimationFrame(function(){
+				$timeout(function(){
 					self.update(self);
-				});
+				},20);
 
 			else
 				this.run = false;

@@ -103,3 +103,7 @@ line-title.small.display div.line {
 line-title.small div.static{
 	display: none;
 }
+
+line-title.overflowing{
+	margin-top: -266px;
+}

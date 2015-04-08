@@ -9,6 +9,9 @@ hexagon-container.second{
 	margin-top: -85px;
 }
 
+hexagon-container.disabled{
+	opacity: .15;
+}
 
 /*HEXAGON*/
 hexagon {

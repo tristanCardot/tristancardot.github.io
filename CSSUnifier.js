@@ -6,7 +6,7 @@
  *   \____|____/____/ \___/|_| |_|_|_| |_|\___|_|    *
  *                                                   *
 \* * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+ 				
 (function(){
 	/** liste des propriétées à tester
 	  * @type Array.<string> */
